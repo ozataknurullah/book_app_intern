@@ -1,3 +1,4 @@
+import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,22 +9,32 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          color: ThemeData.light().colorScheme.primary,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
+      backgroundColor: AppTheme.lightTheme.colorScheme.primary,
+      body: Column(
+        children: [
+          Expanded(
+            flex: 5,
+            child: Center(
+              child: SvgPicture.asset(
                 'assets/images/Logo.svg',
-                height: 100.sp,
+                height: 130.sp,
               ),
-              const CircularProgressIndicator(),
-            ],
+            ),
           ),
-        ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Login Button
+                ElevatedButton(onPressed: () {}, child: const Text('Login')),
+                SizedBox(height: 10.h), // Butonlar arası boşluk
+                // Skip Butonu
+                TextButton(onPressed: () {}, child: const Text('Skip'))
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

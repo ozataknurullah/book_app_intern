@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(255, 43, 43, 226),
-      primary: const Color.fromARGB(255, 0, 0, 0),
+    colorScheme: const ColorScheme.light(
+      primary: Color(0xFF1D1D4E),
     ),
     textTheme: const TextTheme(
       bodyLarge: TextStyle(color: Colors.white),
@@ -12,16 +12,21 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFFFF6F61),
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFFEF6B4A),
-        textStyle: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
+        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(2.r),
         ),
+        padding: EdgeInsets.symmetric(
+          vertical: 16.w,
+          horizontal: 160.h,
+        ),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: const Color(0xFF6251DD),
       ),
     ),
   );

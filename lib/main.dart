@@ -1,3 +1,4 @@
+import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/features/auth/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,15 +11,14 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(390, 844), // Tasarım boyutları
+      designSize: const Size(390, 844), // app design size
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData.light(),
+          theme: AppTheme.lightTheme,
           home: const SplashScreen(),
         );
       },
