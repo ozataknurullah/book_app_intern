@@ -10,37 +10,41 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.lightTheme.colorScheme.primary,
-      body: Column(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Center(
-              child: SvgPicture.asset(
-                'assets/images/Logo.svg',
-                height: 130.sp,
+      body: Padding(
+        padding:
+            EdgeInsets.only(bottom: 10.h, top: 10.h, right: 15.w, left: 15.w),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 5,
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/images/Logo.svg',
+                  height: 130.sp,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Login Button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Login"),
+            Expanded(
+              flex: 1,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Login Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text("Login"),
+                    ),
                   ),
-                ),
-                SizedBox(height: 10.h), // Butonlar arası boşluk
-                // Skip Butonu
-                TextButton(onPressed: () {}, child: const Text('Skip'))
-              ],
+                  SizedBox(height: 10.h), // Butonlar arası boşluk
+                  // Skip Butonu
+                  TextButton(onPressed: () {}, child: const Text('Skip'))
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

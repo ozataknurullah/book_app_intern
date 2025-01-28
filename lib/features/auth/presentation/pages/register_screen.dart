@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({super.key});
 
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -16,7 +17,7 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: AppTheme.lightTheme.colorScheme.surface,
       body: Padding(
         padding:
-            EdgeInsets.only(bottom: 10.h, top: 10.h, right: 15.w, left: 15.w),
+            EdgeInsets.only(bottom: 20.h, top: 10.h, right: 15.w, left: 15.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,6 +39,19 @@ class LoginScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             SizedBox(height: 60.h),
+            //Name field
+            Text(
+              "Name",
+              style: AppTheme.lightTheme.textTheme.bodyMedium,
+            ),
+            SizedBox(height: 5.h),
+            CustomTextField(
+              controller: nameController,
+              hintText: "John Doe",
+              obscureText: true,
+            ),
+            SizedBox(height: 20.h),
+            //E-mail field
             Text(
               "E-Mail",
               style: Theme.of(context).textTheme.bodyMedium,
@@ -61,39 +75,24 @@ class LoginScreen extends StatelessWidget {
               hintText: "Password",
               obscureText: true,
             ),
-            SizedBox(height: 16.h),
+
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: false,
-                      onChanged: (value) {},
-                    ),
-                    Text(
-                      "Remember Me",
-                      style:
-                          AppTheme.lightTheme.textTheme.headlineLarge?.copyWith(
-                        color: AppTheme.lightTheme.colorScheme.secondary,
-                      ),
-                    ),
-                  ],
-                ),
                 TextButton(
                   onPressed: () {
                     // Register işlemi
                   },
-                  child: const Text("Register"),
+                  child: const Text("Login"),
                 ),
               ],
             ),
-            SizedBox(height: 130.h),
+            SizedBox(height: 35.h),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {},
-                child: const Text("Login"),
+                child: const Text("Register"),
               ),
             ),
           ],

@@ -46,16 +46,20 @@ class AppTheme {
     /// Elevated Button
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFFF6F61),
-        foregroundColor: Colors.white,
-        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        backgroundColor: const Color(0xFFEF6B4A), // Buton arka plan rengi
+        foregroundColor: Colors.white, // Yazı rengi
+        textStyle: const TextStyle(
+          fontSize: 16, // Yazı boyutu
+          fontWeight: FontWeight.bold,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(2.r),
+          borderRadius: BorderRadius.circular(6.r), // Buton köşe yuvarlatma
         ),
         padding: EdgeInsets.symmetric(
-          vertical: 16.w,
-          horizontal: 160.h,
+          vertical: 16.h, // Dikey boşluk
+          horizontal: 32.w, // Yatay boşluk
         ),
+        minimumSize: Size(100.w, 48.h), // Butonun minimum boyutları
       ),
     ),
 
@@ -73,10 +77,11 @@ class AppTheme {
 
     /// Checkbox
     checkboxTheme: CheckboxThemeData(
-      checkColor: WidgetStateProperty.all(Colors.white), // Tik işareti rengi
+      checkColor: WidgetStateProperty.all(Colors.white),
       side: const BorderSide(
-          color: Color(0xFF6251DD),
-          width: 2), // Checkbox kenar rengi ve kalınlığı
+        color: Color(0xFF6251DD),
+        width: 2,
+      ),
     ),
 
     /// TextField
