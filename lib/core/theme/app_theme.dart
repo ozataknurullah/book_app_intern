@@ -41,6 +41,16 @@ class AppTheme {
           fontFamily: "Manrope",
           fontWeight: FontWeight.w400,
           fontSize: 10),
+      displayMedium: TextStyle(
+          color: Color(0xFFEF6B4A),
+          fontFamily: "Manrope",
+          fontWeight: FontWeight.w700,
+          fontSize: 12),
+      displaySmall: TextStyle(
+          color: Color(0xFFEF6B4A),
+          fontFamily: "Manrope",
+          fontWeight: FontWeight.w600,
+          fontSize: 10),
     ),
 
     /// Elevated Button

@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
+import 'package:book_app_intern_project/features/home/domain/book_category_model.dart';
 import 'package:book_app_intern_project/features/home/domain/category_model.dart';
+import 'package:book_app_intern_project/features/home/presentation/widgets/book_category_section.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/custom_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,17 +18,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedCategoryIndex = 0;
-  List<CategoryModel> categories = [];
+  List<BookCategoryModel> bookCategories = [];
   final TextEditingController searchController = TextEditingController();
+  final categories = CategoryModel.categories;
 
-  void _getCategories() {
-    categories = CategoryModel.getCategories();
+  void _getBookCategories() {
+    bookCategories = BookCategoryModel.getBookCategories();
   }
 
   @override
   void initState() {
     super.initState();
-    _getCategories();
+    _getBookCategories();
   }
 
   void _onCategoryTap(int index) {
@@ -39,18 +42,35 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: "Catalog", showBackButton: true),
-      body: Padding(
-        padding:
-            EdgeInsets.only(bottom: 10.h, top: 10.h, right: 15.w, left: 15.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            categorySection(),
-            SizedBox(height: 20.h),
-            CustomSearchField(controller: searchController, hintText: "Search"),
-            SizedBox(height: 20.h),
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 15.h),
+          categorySection(),
+          SizedBox(height: 20.h),
+          Padding(
+            padding: EdgeInsets.only(left: 10.w, right: 10.w),
+            child: CustomSearchField(
+                controller: searchController, hintText: "Search"),
+          ),
+          SizedBox(height: 20.h),
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.only(top: 20.h),
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final category = categories[index];
+                return BookCategorySection(
+                  categoryTitle: category.title,
+                  books: category.books,
+                  onViewAll: () {
+                    // View All tıklama işlevi
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -76,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    categories[index].name!,
+                    bookCategories[index].name!,
                     style: isSelected
                         ? AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
                             color: Colors.white,
@@ -89,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
-          itemCount: categories.length,
+          itemCount: bookCategories.length,
           separatorBuilder: (context, index) => SizedBox(
             width: 8.w,
           ),
