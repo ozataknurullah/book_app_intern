@@ -27,7 +27,13 @@ class SplashScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Login Button
-                ElevatedButton(onPressed: () {}, child: const Text('Login')),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Login"),
+                  ),
+                ),
                 SizedBox(height: 10.h), // Butonlar arası boşluk
                 // Skip Butonu
                 TextButton(onPressed: () {}, child: const Text('Skip'))
