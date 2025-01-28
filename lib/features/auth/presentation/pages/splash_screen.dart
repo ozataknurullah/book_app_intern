@@ -1,8 +1,11 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+@RoutePage()
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -33,13 +36,20 @@ class SplashScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AutoRouter.of(context).pushNamed('/login');
+                      },
                       child: const Text("Login"),
                     ),
                   ),
                   SizedBox(height: 10.h), // Butonlar arası boşluk
                   // Skip Butonu
-                  TextButton(onPressed: () {}, child: const Text('Skip'))
+                  TextButton(
+                    onPressed: () {
+                      AutoRouter.of(context).pushNamed('/login');
+                    },
+                    child: const Text('Skip'),
+                  )
                 ],
               ),
             ),

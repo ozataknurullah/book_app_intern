@@ -1,9 +1,12 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+@RoutePage()
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
@@ -81,7 +84,7 @@ class RegisterScreen extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    // Register işlemi
+                    AutoRouter.of(context).pushNamed('/login');
                   },
                   child: const Text("Login"),
                 ),
