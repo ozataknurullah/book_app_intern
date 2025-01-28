@@ -21,7 +21,7 @@ class AppTheme {
         fontSize: 16,
       ),
       bodySmall: TextStyle(
-          color: Colors.black,
+          color: Color.fromARGB(94, 0, 0, 0),
           fontFamily: "Manrope",
           fontWeight: FontWeight.w400,
           fontSize: 16),
@@ -81,6 +81,20 @@ class AppTheme {
       side: const BorderSide(
         color: Color(0xFF6251DD),
         width: 2,
+      ),
+    ),
+
+    /// AppBar
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      titleTextStyle: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      iconTheme: IconThemeData(
+        color: Colors.black,
       ),
     ),
 

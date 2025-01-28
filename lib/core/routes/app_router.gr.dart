@@ -11,14 +11,30 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [HomeScreen]
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute({List<PageRouteInfo>? children})
+      : super(HomeRoute.name, initialChildren: children);
+
+  static const String name = 'HomeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return HomeScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [LoginScreen]
 class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
   LoginRoute({Key? key, List<PageRouteInfo>? children})
-    : super(
-        LoginRoute.name,
-        args: LoginRouteArgs(key: key),
-        initialChildren: children,
-      );
+      : super(
+          LoginRoute.name,
+          args: LoginRouteArgs(key: key),
+          initialChildren: children,
+        );
 
   static const String name = 'LoginRoute';
 
@@ -48,11 +64,11 @@ class LoginRouteArgs {
 /// [RegisterScreen]
 class RegisterRoute extends PageRouteInfo<RegisterRouteArgs> {
   RegisterRoute({Key? key, List<PageRouteInfo>? children})
-    : super(
-        RegisterRoute.name,
-        args: RegisterRouteArgs(key: key),
-        initialChildren: children,
-      );
+      : super(
+          RegisterRoute.name,
+          args: RegisterRouteArgs(key: key),
+          initialChildren: children,
+        );
 
   static const String name = 'RegisterRoute';
 
@@ -82,7 +98,7 @@ class RegisterRouteArgs {
 /// [SplashScreen]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})
-    : super(SplashRoute.name, initialChildren: children);
+      : super(SplashRoute.name, initialChildren: children);
 
   static const String name = 'SplashRoute';
 

@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_text_field.dart';

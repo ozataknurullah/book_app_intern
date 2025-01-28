@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_text_field.dart';
@@ -24,10 +23,13 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 75.h),
-            Center(
-              child: SvgPicture.asset(
-                'assets/images/Logo.svg',
-                height: 65.sp,
+            Hero(
+              tag: 'mayLogo',
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/images/Logo.svg',
+                  height: 65.sp,
+                ),
               ),
             ),
             SizedBox(height: 100.h),
@@ -43,7 +45,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 60.h),
             Text(
               "E-Mail",
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: AppTheme.lightTheme.textTheme.bodyMedium,
             ),
             SizedBox(height: 5.h),
             // E-mail TextField

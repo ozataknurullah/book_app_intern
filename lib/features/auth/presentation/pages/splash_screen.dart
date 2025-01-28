@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +19,13 @@ class SplashScreen extends StatelessWidget {
           children: [
             Expanded(
               flex: 5,
-              child: Center(
-                child: SvgPicture.asset(
-                  'assets/images/Logo.svg',
-                  height: 130.sp,
+              child: Hero(
+                tag: 'mayLogo',
+                child: Center(
+                  child: SvgPicture.asset(
+                    'assets/images/Logo.svg',
+                    height: 130.sp,
+                  ),
                 ),
               ),
             ),
