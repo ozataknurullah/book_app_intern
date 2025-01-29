@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
+import 'package:book_app_intern_project/features/home/data/datasources/book_category_datasource.dart';
 import 'package:book_app_intern_project/features/home/data/datasources/category_datasource.dart';
+import 'package:book_app_intern_project/features/home/data/repositories/book_category_repository.dart';
 import 'package:book_app_intern_project/features/home/data/repositories/category_repository.dart';
 import 'package:book_app_intern_project/features/home/domain/book_category_model.dart';
 import 'package:book_app_intern_project/features/home/domain/category_model.dart';
@@ -21,16 +23,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedCategoryIndex = 0;
-  List<BookCategoryModel> bookCategories = [];
   final TextEditingController searchController = TextEditingController();
   late CategoryRepository repository;
   late final List<CategoryModel> categories;
+  late BookCategoryRepository bookCategoryRepository;
+  late final List<BookCategoryModel> bookCategories;
 
   @override
   void initState() {
     super.initState();
     repository = CategoryRepository(dataSource: CategoryDataSource());
     categories = repository.getCategories();
+    bookCategoryRepository = BookCategoryRepository(
+        bookCategoryDatasource: BookCategoryDatasource());
+    bookCategories = bookCategoryRepository.getCategories();
   }
 
   void _onCategoryTap(int index) {
@@ -58,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.only(top: 20.h),
-              itemCount: categories.length,
+              itemCount: categories.length > 4 ? 4 : categories.length,
               itemBuilder: (context, index) {
                 final category = categories[index];
                 return BookCategorySection(

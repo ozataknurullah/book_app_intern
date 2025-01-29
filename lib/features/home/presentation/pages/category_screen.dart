@@ -27,22 +27,24 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: widget.categoryTitle, showBackButton: false),
-      body: Column(
-        children: [
-          SizedBox(height: 15.h),
-          Padding(
-            padding: EdgeInsets.only(left: 10.w, right: 10.w),
-            child: CustomSearchField(
-                controller: searchController, hintText: "Search"),
-          ),
-          SizedBox(height: 20.h),
-          Expanded(
+      body: Padding(
+        padding: EdgeInsets.only(left: 10.w, right: 10.w),
+        child: Column(
+          children: [
+            SizedBox(height: 15.h),
+            Padding(
+              padding: EdgeInsets.only(left: 10.w, right: 10.w),
+              child: CustomSearchField(
+                  controller: searchController, hintText: "Search"),
+            ),
+            SizedBox(height: 20.h),
+            Expanded(
               child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 12.w,
                     mainAxisSpacing: 12.h,
-                    childAspectRatio: 0.65,
+                    childAspectRatio: (1.sw / 2) / 380.h,
                   ),
                   itemBuilder: (context, index) {
                     return BookCard(
@@ -50,8 +52,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       isHorizontal: false,
                     );
                   },
-                  itemCount: widget.books.length))
-        ],
+                  itemCount: widget.books.length),
+            ),
+          ],
+        ),
       ),
     );
   }

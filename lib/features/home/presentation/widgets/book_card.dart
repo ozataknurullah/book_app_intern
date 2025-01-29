@@ -2,7 +2,6 @@ import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:book_app_intern_project/features/home/domain/book_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class BookCard extends StatelessWidget {
   final BookModel book;
@@ -102,7 +101,7 @@ class BookCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Colors.white,
+        color: Color(0xFFF4F4FF),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
@@ -115,13 +114,13 @@ class BookCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Book Picture
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8.r),
-              topRight: Radius.circular(8.r),
-            ),
-            child: SvgPicture.asset(
-              'assets/images/book.svg',
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4.r),
+              child: Image.asset(
+                'assets/images/book.png',
+              ),
             ),
           ),
           SizedBox(height: 8.h),
@@ -130,35 +129,39 @@ class BookCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.w),
             child: Text(
               book.title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: AppTheme.lightTheme.textTheme.displayMedium
+                  ?.copyWith(color: Colors.black),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           SizedBox(height: 4.h),
-          // Author
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              book.author,
-              style: const TextStyle(color: Colors.grey),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          SizedBox(height: 4.h),
-          // Price
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Text(
-              "\$${book.price.toStringAsFixed(2)}",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.purple,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  book.author,
+                  style: AppTheme.lightTheme.textTheme.displaySmall?.copyWith(
+                      color: const Color.fromARGB(81, 0, 0, 0), fontSize: 8.sp),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
+              // Price
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: Text(
+                  "\$${book.price.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.purple,
+                  ),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 8.h),
         ],
       ),
     );
