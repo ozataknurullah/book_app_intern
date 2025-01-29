@@ -49,7 +49,7 @@ class BookCategorySection extends StatelessWidget {
               ),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: books.length,
+                itemCount: books.length > 4 ? 4 : books.length,
                 itemBuilder: (context, index) {
                   return BookCard(
                     book: books[index],

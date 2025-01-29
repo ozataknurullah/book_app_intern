@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.only(top: 20.h),
-              itemCount: categories.length > 4 ? 4 : categories.length,
+              itemCount: categories.length,
               itemBuilder: (context, index) {
                 final category = categories[index];
                 return BookCategorySection(
