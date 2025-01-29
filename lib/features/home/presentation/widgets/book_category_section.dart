@@ -29,7 +29,7 @@ class BookCategorySection extends StatelessWidget {
               Text(categoryTitle,
                   style: AppTheme.lightTheme.textTheme.bodyLarge),
               TextButton(
-                onPressed: null,
+                onPressed: onViewAll,
                 child: Text(
                   'View All',
                   style: AppTheme.lightTheme.textTheme.displayMedium,

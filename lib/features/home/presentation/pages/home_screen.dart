@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
+import 'package:book_app_intern_project/features/home/data/datasources/category_datasource.dart';
+import 'package:book_app_intern_project/features/home/data/repositories/category_repository.dart';
 import 'package:book_app_intern_project/features/home/domain/book_category_model.dart';
 import 'package:book_app_intern_project/features/home/domain/category_model.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/book_category_section.dart';
@@ -20,16 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedCategoryIndex = 0;
   List<BookCategoryModel> bookCategories = [];
   final TextEditingController searchController = TextEditingController();
-  final categories = CategoryModel.categories;
-
-  void _getBookCategories() {
-    bookCategories = BookCategoryModel.getBookCategories();
-  }
+  late CategoryRepository repository;
+  late final List<CategoryModel> categories;
 
   @override
   void initState() {
     super.initState();
-    _getBookCategories();
+    repository = CategoryRepository(dataSource: CategoryDataSource());
+    categories = repository.getCategories();
   }
 
   void _onCategoryTap(int index) {
@@ -64,7 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   categoryTitle: category.title,
                   books: category.books,
                   onViewAll: () {
-                    // View All tıklama işlevi
+                    context.pushRoute(
+                      CategoryRoute(
+                        categoryTitle: category.title,
+                        books: category.books,
+                      ),
+                    );
                   },
                 );
               },
