@@ -67,17 +67,22 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 final category = categories[index];
-                return BookCategorySection(
-                  categoryTitle: category.title,
-                  books: category.books,
-                  onViewAll: () {
-                    context.pushRoute(
-                      CategoryRoute(
-                        categoryTitle: category.title,
-                        books: category.books,
-                      ),
-                    );
+                return GestureDetector(
+                  onTap: () {
+                    AutoRouter.of(context).pushNamed('/book_detail');
                   },
+                  child: BookCategorySection(
+                    categoryTitle: category.title,
+                    books: category.books,
+                    onViewAll: () {
+                      context.pushRoute(
+                        CategoryRoute(
+                          categoryTitle: category.title,
+                          books: category.books,
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             ),

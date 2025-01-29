@@ -3,6 +3,7 @@ import 'package:book_app_intern_project/features/auth/presentation/pages/login_s
 import 'package:book_app_intern_project/features/auth/presentation/pages/register_screen.dart';
 import 'package:book_app_intern_project/features/auth/presentation/pages/splash_screen.dart';
 import 'package:book_app_intern_project/features/home/domain/book_model.dart';
+import 'package:book_app_intern_project/features/home/presentation/pages/book_detail_screen.dart';
 import 'package:book_app_intern_project/features/home/presentation/pages/category_screen.dart';
 import 'package:book_app_intern_project/features/home/presentation/pages/home_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -16,10 +17,11 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: SplashRoute.page, path: '/splash'),
+        AutoRoute(page: SplashRoute.page, path: '/splash', initial: true),
         AutoRoute(page: LoginRoute.page, path: '/login'),
         AutoRoute(page: RegisterRoute.page, path: '/register'),
-        AutoRoute(page: HomeRoute.page, path: '/home', initial: true),
+        AutoRoute(page: HomeRoute.page, path: '/home'),
         AutoRoute(page: CategoryRoute.page, path: '/category'),
+        AutoRoute(page: BookDetailRoute.page, path: '/book_detail'),
       ];
 }

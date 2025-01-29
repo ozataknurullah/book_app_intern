@@ -47,9 +47,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     childAspectRatio: (1.sw / 2) / 380.h,
                   ),
                   itemBuilder: (context, index) {
-                    return BookCard(
-                      book: widget.books[index],
-                      isHorizontal: false,
+                    return GestureDetector(
+                      onTap: () {
+                        AutoRouter.of(context).pushNamed('/book_detail');
+                      },
+                      child: BookCard(
+                        book: widget.books[index],
+                        isHorizontal: false,
+                      ),
                     );
                   },
                   itemCount: widget.books.length),

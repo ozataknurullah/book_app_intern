@@ -97,7 +97,9 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  AutoRouter.of(context).pushNamed('/home');
+                },
                 child: const Text("Login"),
               ),
             ),

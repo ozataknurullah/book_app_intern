@@ -11,6 +11,22 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [BookDetailScreen]
+class BookDetailRoute extends PageRouteInfo<void> {
+  const BookDetailRoute({List<PageRouteInfo>? children})
+    : super(BookDetailRoute.name, initialChildren: children);
+
+  static const String name = 'BookDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const BookDetailScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [CategoryScreen]
 class CategoryRoute extends PageRouteInfo<CategoryRouteArgs> {
   CategoryRoute({
