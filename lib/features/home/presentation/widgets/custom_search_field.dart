@@ -45,8 +45,7 @@ class CustomSearchField extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
         hintStyle: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-          color:
-              AppTheme.lightTheme.textTheme.bodySmall?.color?.withOpacity(0.4),
+          color: AppTheme.lightTheme.textTheme.bodySmall?.color?.withAlpha(45),
         ),
       ),
     );

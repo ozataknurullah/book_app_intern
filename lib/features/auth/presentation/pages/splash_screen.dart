@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/core/constant/app_assets.dart';
+import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +25,7 @@ class SplashScreen extends StatelessWidget {
                 tag: 'mayLogo',
                 child: Center(
                   child: SvgPicture.asset(
-                    'assets/images/Logo.svg',
+                    AppAssets.logo,
                     height: 130.sp,
                   ),
                 ),
@@ -39,7 +41,7 @@ class SplashScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        AutoRouter.of(context).pushNamed('/login');
+                        context.pushRoute(LoginRoute());
                       },
                       child: const Text("Login"),
                     ),
@@ -48,7 +50,7 @@ class SplashScreen extends StatelessWidget {
                   // Skip Butonu
                   TextButton(
                     onPressed: () {
-                      AutoRouter.of(context).pushNamed('/login');
+                      context.pushRoute(LoginRoute());
                     },
                     child: const Text('Skip'),
                   )

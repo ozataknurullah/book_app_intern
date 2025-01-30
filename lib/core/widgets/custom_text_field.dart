@@ -24,8 +24,7 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-          color:
-              AppTheme.lightTheme.textTheme.bodySmall?.color?.withOpacity(0.4),
+          color: Colors.black.withAlpha(45),
         ),
       ),
     );

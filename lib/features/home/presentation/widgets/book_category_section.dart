@@ -1,19 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/features/home/domain/book_model.dart';
-import 'package:book_app_intern_project/features/home/presentation/widgets/book_card.dart';
+import 'package:book_app_intern_project/features/home/presentation/widgets/horizantal_book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/routes/app_router.dart';
 
 class BookCategorySection extends StatelessWidget {
   final String categoryTitle;
   final List<BookModel> books;
-  final VoidCallback onViewAll;
 
-  const BookCategorySection(
-      {super.key,
-      required this.categoryTitle,
-      required this.books,
-      required this.onViewAll});
+  const BookCategorySection({
+    super.key,
+    required this.categoryTitle,
+    required this.books,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,14 @@ class BookCategorySection extends StatelessWidget {
               Text(categoryTitle,
                   style: AppTheme.lightTheme.textTheme.bodyLarge),
               TextButton(
-                onPressed: onViewAll,
+                onPressed: () {
+                  context.pushRoute(
+                    CategoryRoute(
+                      categoryTitle: categoryTitle,
+                      books: books,
+                    ),
+                  );
+                },
                 child: Text(
                   'View All',
                   style: AppTheme.lightTheme.textTheme.displayMedium,
@@ -51,9 +60,8 @@ class BookCategorySection extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: books.length > 4 ? 4 : books.length,
                 itemBuilder: (context, index) {
-                  return BookCard(
+                  return HorizantalBookCard(
                     book: books[index],
-                    isHorizontal: true,
                   );
                 },
               ),

@@ -53,7 +53,48 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 15.h),
-          categorySection(),
+          Padding(
+            padding: EdgeInsets.only(left: 15.w, top: 15.h),
+            child: SizedBox(
+              height: 42.h,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final isSelected = selectedCategoryIndex == index;
+                  return GestureDetector(
+                    onTap: () => _onCategoryTap(index),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.r),
+                        color: isSelected
+                            ? AppTheme.lightTheme.colorScheme.secondary
+                            : const Color(0xFFF4F4FF),
+                      ),
+                      child: Center(
+                        child: Text(
+                          bookCategories[index].name!,
+                          style: isSelected
+                              ? AppTheme.lightTheme.textTheme.bodySmall
+                                  ?.copyWith(
+                                  color: Colors.white,
+                                )
+                              : AppTheme.lightTheme.textTheme.bodySmall
+                                  ?.copyWith(
+                                  color: const Color.fromARGB(100, 0, 0, 0), //
+                                ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: bookCategories.length,
+                separatorBuilder: (context, index) => SizedBox(
+                  width: 8.w,
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: 20.h),
           Padding(
             padding: EdgeInsets.only(left: 10.w, right: 10.w),
@@ -69,19 +110,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 final category = categories[index];
                 return GestureDetector(
                   onTap: () {
-                    AutoRouter.of(context).pushNamed('/book_detail');
+                    context.pushRoute(const BookDetailRoute());
                   },
                   child: BookCategorySection(
                     categoryTitle: category.title,
                     books: category.books,
-                    onViewAll: () {
-                      context.pushRoute(
-                        CategoryRoute(
-                          categoryTitle: category.title,
-                          books: category.books,
-                        ),
-                      );
-                    },
                   ),
                 );
               },
@@ -91,47 +124,52 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  Padding categorySection() {
-    return Padding(
-      padding: EdgeInsets.only(left: 15.w, top: 15.h),
-      child: SizedBox(
-        height: 42.h,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            final isSelected = selectedCategoryIndex == index;
-            return GestureDetector(
-              onTap: () => _onCategoryTap(index),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 25.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.r),
-                  color: isSelected
-                      ? AppTheme.lightTheme.colorScheme.secondary
-                      : const Color(0xFFF4F4FF),
-                ),
-                child: Center(
-                  child: Text(
-                    bookCategories[index].name!,
-                    style: isSelected
-                        ? AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                            color: Colors.white,
-                          )
-                        : AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                            color: const Color.fromARGB(100, 0, 0, 0), //
-                          ),
-                  ),
-                ),
-              ),
-            );
-          },
-          itemCount: bookCategories.length,
-          separatorBuilder: (context, index) => SizedBox(
-            width: 8.w,
-          ),
-        ),
-      ),
-    );
-  }
 }
+
+// class _Fsdf extends StatelessWidget {
+//   const _Fsdf({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsets.only(left: 15.w, top: 15.h),
+//       child: SizedBox(
+//         height: 42.h,
+//         child: ListView.separated(
+//           scrollDirection: Axis.horizontal,
+//           itemBuilder: (context, index) {
+//             final isSelected = selectedCategoryIndex == index;
+//             return GestureDetector(
+//               onTap: () => _onCategoryTap(index),
+//               child: Container(
+//                 padding: EdgeInsets.symmetric(horizontal: 25.w),
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(5.r),
+//                   color: isSelected
+//                       ? AppTheme.lightTheme.colorScheme.secondary
+//                       : const Color(0xFFF4F4FF),
+//                 ),
+//                 child: Center(
+//                   child: Text(
+//                     bookCategories[index].name!,
+//                     style: isSelected
+//                         ? AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+//                             color: Colors.white,
+//                           )
+//                         : AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+//                             color: const Color.fromARGB(100, 0, 0, 0), //
+//                           ),
+//                   ),
+//                 ),
+//               ),
+//             );
+//           },
+//           itemCount: bookCategories.length,
+//           separatorBuilder: (context, index) => SizedBox(
+//             width: 8.w,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

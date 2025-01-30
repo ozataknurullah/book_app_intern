@@ -70,10 +70,10 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
               style: AppTheme.lightTheme.textTheme.bodyLarge,
             ),
             SizedBox(height: 8.h),
-            Container(
+            SizedBox(
               height: 245.h,
               width: 350.w,
-              child: Text("this is the summary"),
+              child: const Text("this is the summary"),
             ),
             SizedBox(height: 30.h),
             SizedBox(

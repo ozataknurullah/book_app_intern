@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
 import 'package:book_app_intern_project/features/home/domain/book_model.dart';
-import 'package:book_app_intern_project/features/home/presentation/widgets/book_card.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/custom_search_field.dart';
+import 'package:book_app_intern_project/features/home/presentation/widgets/vertical_book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -49,11 +50,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        AutoRouter.of(context).pushNamed('/book_detail');
+                        context.pushRoute(const BookDetailRoute());
                       },
-                      child: BookCard(
+                      child: VerticalBookCard(
                         book: widget.books[index],
-                        isHorizontal: false,
                       ),
                     );
                   },
