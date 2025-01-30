@@ -27,80 +27,156 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 75.h),
-              Hero(
-                tag: 'mayLogo',
-                child: Center(
-                  child: SvgPicture.asset(
-                    AppAssets.logo,
-                    height: 65.sp,
-                  ),
-                ),
-              ),
+              const _Logo(),
               SizedBox(height: 100.h),
-              Text(
-                "Welcome back!",
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                "Login to your account",
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              const _HeadText(),
               SizedBox(height: 60.h),
-              Text(
-                "E-Mail",
-                style: AppTheme.lightTheme.textTheme.bodyMedium,
-              ),
-              SizedBox(height: 5.h),
-              // E-mail TextField
-              CustomTextField(
-                controller: emailController,
-                hintText: "jhon@gmail.com",
-                keyboardType: TextInputType.emailAddress,
-              ),
+              _EmailField(emailController: emailController),
               SizedBox(height: 20.h),
-              // Password TextField
-              Text(
-                "Password",
-                style: AppTheme.lightTheme.textTheme.bodyMedium,
-              ),
-              SizedBox(height: 5.h),
-              CustomTextField(
-                controller: passwordController,
-                hintText: "Password",
-                obscureText: true,
-              ),
+              _PasswordField(passwordController: passwordController),
               SizedBox(height: 16.h),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: false,
-                        onChanged: (value) {},
-                      ),
-                      Text(
-                        "Remember Me",
-                        style: AppTheme.lightTheme.textTheme.headlineLarge
-                            ?.copyWith(
-                          color: AppTheme.lightTheme.colorScheme.secondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      context.pushRoute(RegisterRoute());
-                    },
-                    child: const Text("Register"),
-                  ),
+                  _RememberMeSection(),
+                  _RegisterTextButton(),
                 ],
               ),
               SizedBox(height: 130.h),
               const _LoginButton(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RegisterTextButton extends StatelessWidget {
+  const _RegisterTextButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        context.pushRoute(RegisterRoute());
+      },
+      child: const Text("Register"),
+    );
+  }
+}
+
+class _RememberMeSection extends StatelessWidget {
+  const _RememberMeSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Checkbox(
+          value: false,
+          onChanged: (value) {},
+        ),
+        Text(
+          "Remember Me",
+          style: AppTheme.lightTheme.textTheme.headlineLarge?.copyWith(
+            color: AppTheme.lightTheme.colorScheme.secondary,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PasswordField extends StatelessWidget {
+  const _PasswordField({
+    required this.passwordController,
+  });
+
+  final TextEditingController passwordController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Password TextField
+        Text(
+          "Password",
+          style: AppTheme.lightTheme.textTheme.bodyMedium,
+        ),
+        SizedBox(height: 5.h),
+        CustomTextField(
+          controller: passwordController,
+          hintText: "Password",
+          obscureText: true,
+        ),
+      ],
+    );
+  }
+}
+
+class _EmailField extends StatelessWidget {
+  const _EmailField({
+    required this.emailController,
+  });
+
+  final TextEditingController emailController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "E-Mail",
+          style: AppTheme.lightTheme.textTheme.bodyMedium,
+        ),
+        SizedBox(height: 5.h),
+        // E-mail TextField
+        CustomTextField(
+          controller: emailController,
+          hintText: "jhon@gmail.com",
+          keyboardType: TextInputType.emailAddress,
+        ),
+      ],
+    );
+  }
+}
+
+class _HeadText extends StatelessWidget {
+  const _HeadText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Welcome back!",
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          "Login to your account",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ],
+    );
+  }
+}
+
+class _Logo extends StatelessWidget {
+  const _Logo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: 'mayLogo',
+      child: Center(
+        child: SvgPicture.asset(
+          AppAssets.logo,
+          height: 65.sp,
         ),
       ),
     );

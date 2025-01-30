@@ -1,5 +1,5 @@
-import 'package:book_app_intern_project/features/home/domain/book_model.dart';
-import 'package:book_app_intern_project/features/home/domain/category_model.dart';
+import 'package:book_app_intern_project/features/home/domain/models/book_model.dart';
+import 'package:book_app_intern_project/features/home/domain/models/category_model.dart';
 
 class CategoryDataSource {
   List<CategoryModel> fetchCategories() {

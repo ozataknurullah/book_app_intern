@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/features/auth/presentation/pages/login_screen.dart';
 import 'package:book_app_intern_project/features/auth/presentation/pages/register_screen.dart';
 import 'package:book_app_intern_project/features/auth/presentation/pages/splash_screen.dart';
-import 'package:book_app_intern_project/features/home/domain/book_model.dart';
+import 'package:book_app_intern_project/features/home/domain/models/book_model.dart';
 import 'package:book_app_intern_project/features/home/presentation/pages/book_detail_screen.dart';
 import 'package:book_app_intern_project/features/home/presentation/pages/category_screen.dart';
 import 'package:book_app_intern_project/features/home/presentation/pages/home_screen.dart';

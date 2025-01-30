@@ -1,6 +1,6 @@
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:book_app_intern_project/features/home/domain/book_model.dart';
+import 'package:book_app_intern_project/features/home/domain/models/book_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HorizantalBookCard extends StatelessWidget {

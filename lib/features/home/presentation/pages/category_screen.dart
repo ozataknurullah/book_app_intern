@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
-import 'package:book_app_intern_project/features/home/domain/book_model.dart';
+import 'package:book_app_intern_project/features/home/domain/models/book_model.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/custom_search_field.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/vertical_book_card.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.categoryTitle, showBackButton: false),
+      appBar: CustomAppBar(title: widget.categoryTitle, showBackButton: true),
       body: Padding(
         padding: EdgeInsets.only(left: 10.w, right: 10.w),
         child: Column(

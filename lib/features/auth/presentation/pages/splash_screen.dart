@@ -19,46 +19,73 @@ class SplashScreen extends StatelessWidget {
             EdgeInsets.only(bottom: 10.h, top: 10.h, right: 15.w, left: 15.w),
         child: Column(
           children: [
-            Expanded(
-              flex: 5,
-              child: Hero(
-                tag: 'mayLogo',
-                child: Center(
-                  child: SvgPicture.asset(
-                    AppAssets.logo,
-                    height: 130.sp,
-                  ),
-                ),
-              ),
-            ),
+            const _CenterLogo(),
             Expanded(
               flex: 1,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Login Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.pushRoute(LoginRoute());
-                      },
-                      child: const Text("Login"),
-                    ),
-                  ),
-                  SizedBox(height: 10.h), // Butonlar arası boşluk
-                  // Skip Butonu
-                  TextButton(
-                    onPressed: () {
-                      context.pushRoute(LoginRoute());
-                    },
-                    child: const Text('Skip'),
-                  )
+                  const _LoginButton(),
+                  SizedBox(height: 10.h),
+                  // Skip Button
+                  const _SkipTextButton()
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SkipTextButton extends StatelessWidget {
+  const _SkipTextButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        context.pushRoute(LoginRoute());
+      },
+      child: const Text('Skip'),
+    );
+  }
+}
+
+class _CenterLogo extends StatelessWidget {
+  const _CenterLogo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 5,
+      child: Hero(
+        tag: 'mayLogo',
+        child: Center(
+          child: SvgPicture.asset(
+            AppAssets.logo,
+            height: 130.sp,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LoginButton extends StatelessWidget {
+  const _LoginButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          context.pushRoute(LoginRoute());
+        },
+        child: const Text("Login"),
       ),
     );
   }

@@ -1,175 +1,113 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
-import 'package:book_app_intern_project/features/home/data/datasources/book_category_datasource.dart';
-import 'package:book_app_intern_project/features/home/data/datasources/category_datasource.dart';
-import 'package:book_app_intern_project/features/home/data/repositories/book_category_repository.dart';
-import 'package:book_app_intern_project/features/home/data/repositories/category_repository.dart';
-import 'package:book_app_intern_project/features/home/domain/book_category_model.dart';
-import 'package:book_app_intern_project/features/home/domain/category_model.dart';
-import 'package:book_app_intern_project/features/home/presentation/widgets/book_category_section.dart';
-import 'package:book_app_intern_project/features/home/presentation/widgets/custom_search_field.dart';
+// import 'package:book_app_intern_project/features/home/data/datasources/category_datasource.dart';
+// import 'package:book_app_intern_project/features/home/domain/repositories/book_category_repository.dart';
+// import 'package:book_app_intern_project/features/home/domain/repositories/category_repository.dart';
+// import 'package:book_app_intern_project/features/home/domain/models/book_category_model.dart';
+// import 'package:book_app_intern_project/features/home/domain/models/category_model.dart';
+// import 'package:book_app_intern_project/features/home/presentation/states/book_category_state.dart';
+// import 'package:book_app_intern_project/features/home/presentation/widgets/book_category_section.dart';
+// import 'package:book_app_intern_project/features/home/presentation/widgets/custom_search_field.dart';
+// import 'package:book_app_intern_project/core/routes/app_router.dart';
+import 'package:book_app_intern_project/features/home/presentation/providers/book_category_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../widgets/custom_search_field.dart';
+
 @RoutePage()
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bookCategoryState = ref.watch(bookCategoryProvider);
+    final bookCategoryNotifier = ref.read(bookCategoryProvider.notifier);
+    final TextEditingController searchController = TextEditingController();
 
-class _HomeScreenState extends State<HomeScreen> {
-  int selectedCategoryIndex = 0;
-  final TextEditingController searchController = TextEditingController();
-  late CategoryRepository repository;
-  late final List<CategoryModel> categories;
-  late BookCategoryRepository bookCategoryRepository;
-  late final List<BookCategoryModel> bookCategories;
-
-  @override
-  void initState() {
-    super.initState();
-    repository = CategoryRepository(dataSource: CategoryDataSource());
-    categories = repository.getCategories();
-    bookCategoryRepository = BookCategoryRepository(
-        bookCategoryDatasource: BookCategoryDatasource());
-    bookCategories = bookCategoryRepository.getCategories();
-  }
-
-  void _onCategoryTap(int index) {
-    setState(() {
-      selectedCategoryIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: "Catalog", showBackButton: true),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 15.h),
-          Padding(
-            padding: EdgeInsets.only(left: 15.w, top: 15.h),
-            child: SizedBox(
-              height: 42.h,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final isSelected = selectedCategoryIndex == index;
-                  return GestureDetector(
-                    onTap: () => _onCategoryTap(index),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 25.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.r),
-                        color: isSelected
-                            ? AppTheme.lightTheme.colorScheme.secondary
-                            : const Color(0xFFF4F4FF),
-                      ),
-                      child: Center(
-                        child: Text(
-                          bookCategories[index].name!,
-                          style: isSelected
-                              ? AppTheme.lightTheme.textTheme.bodySmall
-                                  ?.copyWith(
-                                  color: Colors.white,
-                                )
-                              : AppTheme.lightTheme.textTheme.bodySmall
-                                  ?.copyWith(
-                                  color: const Color.fromARGB(100, 0, 0, 0), //
-                                ),
-                        ),
+      appBar: const CustomAppBar(title: "Catalog", showBackButton: false),
+      body: bookCategoryState.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 15.h),
+                //Book Categories Section
+                Padding(
+                  padding: EdgeInsets.only(left: 15.w, top: 15.h),
+                  child: SizedBox(
+                    height: 42.h,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final isSelected =
+                            bookCategoryState.selectedCategoryIndex == index;
+                        return GestureDetector(
+                          onTap: () =>
+                              bookCategoryNotifier.selectCategory(index),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 25.w),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.r),
+                              color: isSelected
+                                  ? AppTheme.lightTheme.colorScheme.secondary
+                                  : const Color(0xFFF4F4FF),
+                            ),
+                            child: Center(
+                              child: Text(
+                                bookCategoryState.bookCategories[index].name!,
+                                style: isSelected
+                                    ? AppTheme.lightTheme.textTheme.bodySmall
+                                        ?.copyWith(
+                                        color: Colors.white,
+                                      )
+                                    : AppTheme.lightTheme.textTheme.bodySmall
+                                        ?.copyWith(
+                                        color:
+                                            const Color.fromARGB(100, 0, 0, 0),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: bookCategoryState.bookCategories.length,
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: 8.w,
                       ),
                     ),
-                  );
-                },
-                itemCount: bookCategories.length,
-                separatorBuilder: (context, index) => SizedBox(
-                  width: 8.w,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Padding(
-            padding: EdgeInsets.only(left: 10.w, right: 10.w),
-            child: CustomSearchField(
-                controller: searchController, hintText: "Search"),
-          ),
-          SizedBox(height: 20.h),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.only(top: 20.h),
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return GestureDetector(
-                  onTap: () {
-                    context.pushRoute(const BookDetailRoute());
-                  },
-                  child: BookCategorySection(
-                    categoryTitle: category.title,
-                    books: category.books,
                   ),
-                );
-              },
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                  child: CustomSearchField(
+                      controller: searchController, hintText: "Search"),
+                ),
+                SizedBox(height: 20.h),
+                // Expanded(
+                //   child: ListView.builder(
+                //     padding: EdgeInsets.only(top: 20.h),
+                //     itemCount: categories.length,
+                //     itemBuilder: (context, index) {
+                //       final category = categories[index];
+                //       return GestureDetector(
+                //         onTap: () {
+                //           context.pushRoute(const BookDetailRoute());
+                //         },
+                //         child: BookCategorySection(
+                //           categoryTitle: category.title,
+                //           books: category.books,
+                //         ),
+                //       );
+                //     },
+                //   ),
+                // ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
-
-// class _Fsdf extends StatelessWidget {
-//   const _Fsdf({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.only(left: 15.w, top: 15.h),
-//       child: SizedBox(
-//         height: 42.h,
-//         child: ListView.separated(
-//           scrollDirection: Axis.horizontal,
-//           itemBuilder: (context, index) {
-//             final isSelected = selectedCategoryIndex == index;
-//             return GestureDetector(
-//               onTap: () => _onCategoryTap(index),
-//               child: Container(
-//                 padding: EdgeInsets.symmetric(horizontal: 25.w),
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(5.r),
-//                   color: isSelected
-//                       ? AppTheme.lightTheme.colorScheme.secondary
-//                       : const Color(0xFFF4F4FF),
-//                 ),
-//                 child: Center(
-//                   child: Text(
-//                     bookCategories[index].name!,
-//                     style: isSelected
-//                         ? AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-//                             color: Colors.white,
-//                           )
-//                         : AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-//                             color: const Color.fromARGB(100, 0, 0, 0), //
-//                           ),
-//                   ),
-//                 ),
-//               ),
-//             );
-//           },
-//           itemCount: bookCategories.length,
-//           separatorBuilder: (context, index) => SizedBox(
-//             width: 8.w,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

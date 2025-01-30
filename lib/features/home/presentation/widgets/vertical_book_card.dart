@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../../domain/book_model.dart';
+import '../../domain/models/book_model.dart';
 
 class VerticalBookCard extends StatelessWidget {
   final BookModel book;

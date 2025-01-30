@@ -1,7 +1,8 @@
-import 'package:book_app_intern_project/features/home/domain/book_category_model.dart';
+import 'package:book_app_intern_project/features/home/domain/models/book_category_model.dart';
 
-class BookCategoryDatasource {
-  List<BookCategoryModel> fetchCategories() {
+class BookCategoryDataSource {
+  Future<List<BookCategoryModel>> fetchBookCategories() async {
+    await Future.delayed(const Duration(milliseconds: 500));
     return [
       BookCategoryModel(id: "0", name: "All"),
       BookCategoryModel(id: "1", name: "Classic"),
