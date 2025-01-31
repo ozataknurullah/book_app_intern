@@ -29,36 +29,62 @@ class CategoryScreen extends ConsumerWidget {
         child: Column(
           children: [
             SizedBox(height: 15.h),
-            Padding(
-              padding: EdgeInsets.only(left: 10.w, right: 10.w),
-              child: CustomSearchField(
-                  controller: searchController, hintText: "Search"),
-            ),
+            _SearchField(searchController: searchController),
             SizedBox(height: 20.h),
-            Expanded(
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12.w,
-                    mainAxisSpacing: 12.h,
-                    childAspectRatio: (1.sw / 2) / 380.h,
-                  ),
-                  itemBuilder: (context, index) {
-                    final book = books[index];
-                    return GestureDetector(
-                      onTap: () {
-                        context.pushRoute(BookDetailRoute(bookId: book.id));
-                      },
-                      child: VerticalBookCard(
-                        book: books[index],
-                      ),
-                    );
-                  },
-                  itemCount: books.length),
-            ),
+            _BookGridView(books: books),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _BookGridView extends StatelessWidget {
+  const _BookGridView({
+    required this.books,
+  });
+
+  final List<BookModel> books;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: (1.sw / 2) / 380.h,
+          ),
+          itemBuilder: (context, index) {
+            final book = books[index];
+            return GestureDetector(
+              onTap: () {
+                context.pushRoute(BookDetailRoute(bookId: book.id));
+              },
+              child: VerticalBookCard(
+                book: books[index],
+              ),
+            );
+          },
+          itemCount: books.length),
+    );
+  }
+}
+
+class _SearchField extends StatelessWidget {
+  const _SearchField({
+    required this.searchController,
+  });
+
+  final TextEditingController searchController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 10.w, right: 10.w),
+      child:
+          CustomSearchField(controller: searchController, hintText: "Search"),
     );
   }
 }

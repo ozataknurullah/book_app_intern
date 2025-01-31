@@ -1,3 +1,4 @@
+import 'package:book_app_intern_project/core/constant/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,14 +29,14 @@ class CustomSearchField extends StatelessWidget {
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: left, bottom: bottom, top: top),
           child: SvgPicture.asset(
-            'assets/icons/search_icon.svg',
+            AppAssets.searchIcon,
           ),
         ),
         suffixIcon: GestureDetector(
           onTap: () {},
           child: Padding(
             padding: EdgeInsets.only(left: left, bottom: bottom, top: top),
-            child: SvgPicture.asset('assets/icons/filter.svg'),
+            child: SvgPicture.asset(AppAssets.filterIcon),
           ),
         ),
         filled: true,

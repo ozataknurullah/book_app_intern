@@ -77,20 +77,20 @@ class AppTheme {
   static ElevatedButtonThemeData _elevatedButtonThemeData() {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFEF6B4A), // Buton arka plan rengi
-        foregroundColor: Colors.white, // Yazı rengi
+        backgroundColor: const Color(0xFFEF6B4A),
+        foregroundColor: Colors.white,
         textStyle: const TextStyle(
-          fontSize: 16, // Yazı boyutu
+          fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6.r), // Buton köşe yuvarlatma
+          borderRadius: BorderRadius.circular(4.r),
         ),
         padding: EdgeInsets.symmetric(
-          vertical: 16.h, // Dikey boşluk
-          horizontal: 32.w, // Yatay boşluk
+          vertical: 16.h,
+          horizontal: 24.w,
         ),
-        minimumSize: Size(100.w, 48.h), // Butonun minimum boyutları
+        minimumSize: Size(100.w, 48.h),
       ),
     );
   }

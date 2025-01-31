@@ -24,57 +24,86 @@ class BookCategorySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          // Category title and viewAll text button
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(categoryTitle,
-                  style: AppTheme.lightTheme.textTheme.bodyLarge),
-              TextButton(
-                onPressed: () {
-                  context.pushRoute(
-                    CategoryRoute(
-                      categoryTitle: categoryTitle,
-                      books: books,
-                    ),
-                  );
-                },
-                child: Text(
-                  'View All',
-                  style: AppTheme.lightTheme.textTheme.displayMedium,
+        _CategoryTitleAndViewButton(categoryTitle: categoryTitle, books: books),
+        const SizedBox(height: 16),
+        _BookSection(books: books, onBookTap: onBookTap),
+      ],
+    );
+  }
+}
+
+class _BookSection extends StatelessWidget {
+  const _BookSection({
+    required this.books,
+    required this.onBookTap,
+  });
+
+  final List<BookModel> books;
+  final void Function(BookModel book) onBookTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0),
+      child: SizedBox(
+        height: 140.h,
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: 25.h,
+          ),
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: books.length > 4 ? 4 : books.length,
+            itemBuilder: (context, index) {
+              final book = books[index];
+              return GestureDetector(
+                onTap: () => onBookTap(book),
+                child: HorizantalBookCard(
+                  book: books[index],
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0),
-          child: SizedBox(
-            height: 140.h,
-            child: Padding(
-              padding: EdgeInsets.only(
-                bottom: 25.h,
-              ),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: books.length > 4 ? 4 : books.length,
-                itemBuilder: (context, index) {
-                  final book = books[index];
-                  return GestureDetector(
-                    onTap: () => onBookTap(book),
-                    child: HorizantalBookCard(
-                      book: books[index],
-                    ),
-                  );
-                },
-              ),
+      ),
+    );
+  }
+}
+
+class _CategoryTitleAndViewButton extends StatelessWidget {
+  const _CategoryTitleAndViewButton({
+    required this.categoryTitle,
+    required this.books,
+  });
+
+  final String categoryTitle;
+  final List<BookModel> books;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      // Category title and viewAll text button
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(categoryTitle, style: AppTheme.lightTheme.textTheme.bodyLarge),
+          TextButton(
+            onPressed: () {
+              context.pushRoute(
+                CategoryRoute(
+                  categoryTitle: categoryTitle,
+                  books: books,
+                ),
+              );
+            },
+            child: Text(
+              'View All',
+              style: AppTheme.lightTheme.textTheme.displayMedium,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
