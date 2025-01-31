@@ -10,11 +10,13 @@ import '../../../../core/routes/app_router.dart';
 class BookCategorySection extends StatelessWidget {
   final String categoryTitle;
   final List<BookModel> books;
+  final void Function(BookModel book) onBookTap;
 
   const BookCategorySection({
     super.key,
     required this.categoryTitle,
     required this.books,
+    required this.onBookTap,
   });
 
   @override
@@ -60,8 +62,12 @@ class BookCategorySection extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: books.length > 4 ? 4 : books.length,
                 itemBuilder: (context, index) {
-                  return HorizantalBookCard(
-                    book: books[index],
+                  final book = books[index];
+                  return GestureDetector(
+                    onTap: () => onBookTap(book),
+                    child: HorizantalBookCard(
+                      book: books[index],
+                    ),
                   );
                 },
               ),

@@ -12,18 +12,39 @@ part of 'app_router.dart';
 
 /// generated route for
 /// [BookDetailScreen]
-class BookDetailRoute extends PageRouteInfo<void> {
-  const BookDetailRoute({List<PageRouteInfo>? children})
-      : super(BookDetailRoute.name, initialChildren: children);
+class BookDetailRoute extends PageRouteInfo<BookDetailRouteArgs> {
+  BookDetailRoute({
+    Key? key,
+    required String bookId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         BookDetailRoute.name,
+         args: BookDetailRouteArgs(key: key, bookId: bookId),
+         initialChildren: children,
+       );
 
   static const String name = 'BookDetailRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const BookDetailScreen();
+      final args = data.argsAs<BookDetailRouteArgs>();
+      return BookDetailScreen(key: args.key, bookId: args.bookId);
     },
   );
+}
+
+class BookDetailRouteArgs {
+  const BookDetailRouteArgs({this.key, required this.bookId});
+
+  final Key? key;
+
+  final String bookId;
+
+  @override
+  String toString() {
+    return 'BookDetailRouteArgs{key: $key, bookId: $bookId}';
+  }
 }
 
 /// generated route for
@@ -35,14 +56,14 @@ class CategoryRoute extends PageRouteInfo<CategoryRouteArgs> {
     required List<BookModel> books,
     List<PageRouteInfo>? children,
   }) : super(
-          CategoryRoute.name,
-          args: CategoryRouteArgs(
-            key: key,
-            categoryTitle: categoryTitle,
-            books: books,
-          ),
-          initialChildren: children,
-        );
+         CategoryRoute.name,
+         args: CategoryRouteArgs(
+           key: key,
+           categoryTitle: categoryTitle,
+           books: books,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'CategoryRoute';
 
@@ -82,14 +103,14 @@ class CategoryRouteArgs {
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
-      : super(HomeRoute.name, initialChildren: children);
+    : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return HomeScreen();
+      return const HomeScreen();
     },
   );
 }
@@ -98,11 +119,11 @@ class HomeRoute extends PageRouteInfo<void> {
 /// [LoginScreen]
 class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
   LoginRoute({Key? key, List<PageRouteInfo>? children})
-      : super(
-          LoginRoute.name,
-          args: LoginRouteArgs(key: key),
-          initialChildren: children,
-        );
+    : super(
+        LoginRoute.name,
+        args: LoginRouteArgs(key: key),
+        initialChildren: children,
+      );
 
   static const String name = 'LoginRoute';
 
@@ -132,11 +153,11 @@ class LoginRouteArgs {
 /// [RegisterScreen]
 class RegisterRoute extends PageRouteInfo<RegisterRouteArgs> {
   RegisterRoute({Key? key, List<PageRouteInfo>? children})
-      : super(
-          RegisterRoute.name,
-          args: RegisterRouteArgs(key: key),
-          initialChildren: children,
-        );
+    : super(
+        RegisterRoute.name,
+        args: RegisterRouteArgs(key: key),
+        initialChildren: children,
+      );
 
   static const String name = 'RegisterRoute';
 
@@ -166,7 +187,7 @@ class RegisterRouteArgs {
 /// [SplashScreen]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})
-      : super(SplashRoute.name, initialChildren: children);
+    : super(SplashRoute.name, initialChildren: children);
 
   static const String name = 'SplashRoute';
 

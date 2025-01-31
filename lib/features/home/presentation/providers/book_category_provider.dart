@@ -18,22 +18,15 @@ class BookCategoryNotifier extends StateNotifier<BookCategoryState> {
   }
 
   Future<void> fetchBookCategories() async {
-    state = BookCategoryState(
-        isLoading: true,
-        bookCategories: [],
-        selectedCategoryIndex: state.selectedCategoryIndex);
     try {
       final bookCategories = await repository.getBookCategories();
-      state = BookCategoryState(
-          isLoading: false,
-          bookCategories: bookCategories,
-          selectedCategoryIndex: state.selectedCategoryIndex);
+
+      state = state.copyWith(
+        isLoading: false,
+        bookCategories: bookCategories,
+      );
     } catch (e) {
-      state = BookCategoryState(
-          isLoading: false,
-          bookCategories: [],
-          errorMessage: e.toString(),
-          selectedCategoryIndex: state.selectedCategoryIndex);
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 

@@ -1,33 +1,29 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
 import 'package:book_app_intern_project/features/home/domain/models/book_model.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/custom_search_field.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/vertical_book_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/routes/app_router.dart';
 
 @RoutePage()
-class CategoryScreen extends StatefulWidget {
+class CategoryScreen extends ConsumerWidget {
   final String categoryTitle;
   final List<BookModel> books;
-  const CategoryScreen({
+  CategoryScreen({
     super.key,
     required this.categoryTitle,
     required this.books,
   });
 
-  @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
-}
-
-class _CategoryScreenState extends State<CategoryScreen> {
   final TextEditingController searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.categoryTitle, showBackButton: true),
+      appBar: CustomAppBar(title: categoryTitle, showBackButton: true),
       body: Padding(
         padding: EdgeInsets.only(left: 10.w, right: 10.w),
         child: Column(
@@ -48,16 +44,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     childAspectRatio: (1.sw / 2) / 380.h,
                   ),
                   itemBuilder: (context, index) {
+                    final book = books[index];
                     return GestureDetector(
                       onTap: () {
-                        context.pushRoute(const BookDetailRoute());
+                        context.pushRoute(BookDetailRoute(bookId: book.id));
                       },
                       child: VerticalBookCard(
-                        book: widget.books[index],
+                        book: books[index],
                       ),
                     );
                   },
-                  itemCount: widget.books.length),
+                  itemCount: books.length),
             ),
           ],
         ),
