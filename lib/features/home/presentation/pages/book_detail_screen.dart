@@ -7,7 +7,8 @@ import 'package:book_app_intern_project/features/home/presentation/states/book_d
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import '../providers/favorite_button_provider.dart';
 
 @RoutePage()
 class BookDetailScreen extends ConsumerWidget {
@@ -32,7 +33,7 @@ class BookDetailScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const _BookPictureWithFavIcon(),
+                          _BookImageAndFavIcon(),
                           SizedBox(height: 16.h),
                           _BookTitleAndAuthor(bookState: bookState),
                           SizedBox(height: 30.h),
@@ -46,32 +47,67 @@ class BookDetailScreen extends ConsumerWidget {
   }
 }
 
-class _BookPictureWithFavIcon extends StatelessWidget {
-  const _BookPictureWithFavIcon();
+class _BookImageAndFavIcon extends StatelessWidget {
+  const _BookImageAndFavIcon();
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         children: [
-          Stack(children: [
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.r),
-                child: Image.asset(
-                  'assets/images/book.png',
-                  width: 140.w,
-                  height: 225.h,
-                ),
-              ),
-            ),
-            SizedBox(width: 16.w),
-            Align(
-              alignment: Alignment.topRight,
-              child: SvgPicture.asset(AppAssets.favIco),
-            )
-          ])
+          Stack(
+            children: [
+              const _BookImage(),
+              SizedBox(width: 16.w),
+              const _FavIcon(),
+            ],
+          )
         ],
+      ),
+    );
+  }
+}
+
+class _FavIcon extends ConsumerWidget {
+  const _FavIcon();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteState = ref.watch(favoriteProvider);
+
+    return Align(
+      alignment: Alignment.topRight,
+      child: GestureDetector(
+        onTap: () {
+          ref.read(favoriteProvider.notifier).toggleFavorite();
+        },
+        child: AnimatedScale(
+          scale: favoriteState.scale,
+          duration: const Duration(milliseconds: 150), // Animasyon süresi
+          child: Icon(
+            favoriteState.isFavorited ? Icons.favorite : Icons.favorite_border,
+            color: favoriteState.isFavorited ? Colors.purple : Colors.grey,
+            size: 30.0,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BookImage extends StatelessWidget {
+  const _BookImage();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5.r),
+        child: Image.asset(
+          AppAssets.book,
+          width: 140.w,
+          height: 225.h,
+        ),
       ),
     );
   }
