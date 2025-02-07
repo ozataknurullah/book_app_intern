@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/constant/app_strings.dart';
+
 @RoutePage()
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -49,7 +51,7 @@ class _SkipTextButton extends StatelessWidget {
       onPressed: () {
         context.pushRoute(LoginRoute());
       },
-      child: const Text('Skip'),
+      child: const Text(AppStrings.skip),
     );
   }
 }
@@ -85,7 +87,7 @@ class _LoginButton extends StatelessWidget {
         onPressed: () {
           context.pushRoute(LoginRoute());
         },
-        child: const Text("Login"),
+        child: const Text(AppStrings.login),
       ),
     );
   }

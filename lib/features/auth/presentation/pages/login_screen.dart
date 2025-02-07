@@ -1,22 +1,29 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:book_app_intern_project/core/constant/app_assets.dart';
-import 'package:book_app_intern_project/core/theme/app_theme.dart';
-import 'package:book_app_intern_project/core/widgets/custom_text_field.dart';
-import 'package:flutter/material.dart';
+import 'package:book_app_intern_project/features/auth/presentation/providers/login_provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../../../core/constant/app_assets.dart';
+import '../../../../core/constant/app_strings.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/validators.dart';
+import '../../../../core/widgets/custom_text_field.dart';
+import "package:flutter/material.dart";
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../../core/routes/app_router.dart';
 
 @RoutePage()
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   LoginScreen({super.key});
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    //final loginState = ref.watch(loginNotifierProvider);
+    final loginNotifier = ref.read(loginNotifierProvider.notifier);
+
     return Scaffold(
       backgroundColor: AppTheme.lightTheme.colorScheme.surface,
       body: SingleChildScrollView(
@@ -31,9 +38,19 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: 100.h),
               const _HeadText(),
               SizedBox(height: 60.h),
-              _EmailField(emailController: emailController),
+              CustomTextField(
+                controller: emailController,
+                hintText: AppStrings.emailHint,
+                label: AppStrings.email,
+                keyboardType: TextInputType.emailAddress,
+              ),
               SizedBox(height: 20.h),
-              _PasswordField(passwordController: passwordController),
+              CustomTextField(
+                label: AppStrings.password,
+                hintText: AppStrings.passwordHint,
+                obscureText: true,
+                controller: passwordController,
+              ),
               SizedBox(height: 16.h),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +60,11 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 130.h),
-              const _LoginButton(),
+              _LoginButton(
+                loginNotifier: loginNotifier,
+                passwordController: passwordController,
+                emailController: emailController,
+              ),
             ],
           ),
         ),
@@ -61,7 +82,7 @@ class _RegisterTextButton extends StatelessWidget {
       onPressed: () {
         context.pushRoute(RegisterRoute());
       },
-      child: const Text("Register"),
+      child: const Text(AppStrings.register),
     );
   }
 }
@@ -78,66 +99,10 @@ class _RememberMeSection extends StatelessWidget {
           onChanged: (value) {},
         ),
         Text(
-          "Remember Me",
+          AppStrings.rememberMe,
           style: AppTheme.lightTheme.textTheme.headlineLarge?.copyWith(
             color: AppTheme.lightTheme.colorScheme.secondary,
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class _PasswordField extends StatelessWidget {
-  const _PasswordField({
-    required this.passwordController,
-  });
-
-  final TextEditingController passwordController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Password TextField
-        Text(
-          "Password",
-          style: AppTheme.lightTheme.textTheme.bodyMedium,
-        ),
-        SizedBox(height: 5.h),
-        CustomTextField(
-          controller: passwordController,
-          hintText: "Password",
-          obscureText: true,
-        ),
-      ],
-    );
-  }
-}
-
-class _EmailField extends StatelessWidget {
-  const _EmailField({
-    required this.emailController,
-  });
-
-  final TextEditingController emailController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "E-Mail",
-          style: AppTheme.lightTheme.textTheme.bodyMedium,
-        ),
-        SizedBox(height: 5.h),
-        // E-mail TextField
-        CustomTextField(
-          controller: emailController,
-          hintText: "jhon@gmail.com",
-          keyboardType: TextInputType.emailAddress,
         ),
       ],
     );
@@ -153,12 +118,12 @@ class _HeadText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Welcome back!",
+          AppStrings.welcomeBack,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         SizedBox(height: 8.h),
         Text(
-          "Login to your account",
+          AppStrings.loginAccount,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       ],
@@ -183,18 +148,95 @@ class _Logo extends StatelessWidget {
   }
 }
 
-class _LoginButton extends StatelessWidget {
-  const _LoginButton();
+class _LoginButton extends ConsumerWidget {
+  const _LoginButton({
+    required this.loginNotifier,
+    required this.emailController,
+    required this.passwordController,
+  });
+
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final LoginNotifier loginNotifier;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          context.pushRoute(const HomeRoute());
+        onPressed: () async {
+          final emailError = Validators.validateEmail(emailController.text);
+          if (emailError != null) {
+            Fluttertoast.showToast(
+              msg = emailError,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+            return;
+          }
+
+          // Validate password
+          final passwordError =
+              Validators.validatePassword(passwordController.text);
+          if (passwordError != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(passwordError),
+                backgroundColor: Colors.red,
+              ),
+            );
+            return;
+          }
+
+          // Show loading indicator
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text("Giriş Yapılıyor..."),
+                ],
+              ),
+            ),
+          );
+
+          try {
+            // Login process
+            await ref.read(loginNotifierProvider.notifier).login(
+                  emailController.text.trim(),
+                  passwordController.text.trim(),
+                );
+
+            // Success status
+            if (ref.read(loginNotifierProvider).errorMessage == null) {
+              if (context.mounted) {
+                Navigator.of(context).pop();
+                context.router.replace(const HomeRoute());
+              }
+            } else {
+              // Error status
+              if (context.mounted) {
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Giriş bilgilerinizi kontrol ediniz'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            }
+          } catch (e) {
+            throw Exception(e);
+          }
         },
-        child: const Text("Login"),
+        child: const Text(AppStrings.login),
       ),
     );
   }

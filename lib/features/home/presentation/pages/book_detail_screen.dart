@@ -33,7 +33,7 @@ class BookDetailScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _BookImageAndFavIcon(),
+                          const _BookImageAndFavIcon(),
                           SizedBox(height: 16.h),
                           _BookTitleAndAuthor(bookState: bookState),
                           SizedBox(height: 30.h),
