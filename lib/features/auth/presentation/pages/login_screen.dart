@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/features/auth/presentation/providers/login_provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/constant/app_strings.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/routes/app_router.dart';
+import '../../../../core/widgets/custom_toast.dart';
 
 @RoutePage()
 class LoginScreen extends ConsumerWidget {
@@ -23,6 +23,7 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //final loginState = ref.watch(loginNotifierProvider);
     final loginNotifier = ref.read(loginNotifierProvider.notifier);
+    final rememberMe = ref.watch(rememberMeProvider);
 
     return Scaffold(
       backgroundColor: AppTheme.lightTheme.colorScheme.surface,
@@ -64,6 +65,7 @@ class LoginScreen extends ConsumerWidget {
                 loginNotifier: loginNotifier,
                 passwordController: passwordController,
                 emailController: emailController,
+                rememberMe: rememberMe,
               ),
             ],
           ),
@@ -87,16 +89,19 @@ class _RegisterTextButton extends StatelessWidget {
   }
 }
 
-class _RememberMeSection extends StatelessWidget {
+class _RememberMeSection extends ConsumerWidget {
   const _RememberMeSection();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rememberMe = ref.watch(rememberMeProvider);
     return Row(
       children: [
         Checkbox(
-          value: false,
-          onChanged: (value) {},
+          value: rememberMe,
+          onChanged: (value) async {
+            ref.read(rememberMeProvider.notifier).state = value!;
+          },
         ),
         Text(
           AppStrings.rememberMe,
@@ -153,11 +158,13 @@ class _LoginButton extends ConsumerWidget {
     required this.loginNotifier,
     required this.emailController,
     required this.passwordController,
+    required this.rememberMe,
   });
 
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final LoginNotifier loginNotifier;
+  final bool rememberMe;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -167,14 +174,7 @@ class _LoginButton extends ConsumerWidget {
         onPressed: () async {
           final emailError = Validators.validateEmail(emailController.text);
           if (emailError != null) {
-            Fluttertoast.showToast(
-              msg = emailError,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0,
-            );
+            CustomToast.showError(emailError);
             return;
           }
 
@@ -182,12 +182,7 @@ class _LoginButton extends ConsumerWidget {
           final passwordError =
               Validators.validatePassword(passwordController.text);
           if (passwordError != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(passwordError),
-                backgroundColor: Colors.red,
-              ),
-            );
+            CustomToast.showError(passwordError);
             return;
           }
 
@@ -212,6 +207,7 @@ class _LoginButton extends ConsumerWidget {
             await ref.read(loginNotifierProvider.notifier).login(
                   emailController.text.trim(),
                   passwordController.text.trim(),
+                  rememberMe,
                 );
 
             // Success status
@@ -224,12 +220,7 @@ class _LoginButton extends ConsumerWidget {
               // Error status
               if (context.mounted) {
                 Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Giriş bilgilerinizi kontrol ediniz'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                CustomToast.showError('Giriş bilgilerinizi kontrol ediniz');
               }
             }
           } catch (e) {

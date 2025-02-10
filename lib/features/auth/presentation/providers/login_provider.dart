@@ -1,3 +1,4 @@
+import 'package:book_app_intern_project/services/local/local_stroge.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/repositories/login_repository.dart';
@@ -9,12 +10,14 @@ final loginNotifierProvider =
   return LoginNotifier(loginRepository: ref.read(loginRepositoryProvider));
 });
 
+final rememberMeProvider = StateProvider<bool>((ref) => false);
+
 class LoginNotifier extends StateNotifier<LoginState> {
   final LoginRepository loginRepository;
 
   LoginNotifier({required this.loginRepository}) : super(LoginState.initial());
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String email, String password, bool rememberMe) async {
     state = state.copyWith(isLoading: true);
 
     try {
@@ -24,6 +27,11 @@ class LoginNotifier extends StateNotifier<LoginState> {
         token: token,
         errorMessage: null,
       );
+      print("login successful");
+      if (rememberMe) {
+        await LocalStroge.saveToken(token);
+        print("token saved $token");
+      }
     } on DioException catch (e) {
       state = state.copyWith(
         isLoading: false,
