@@ -9,11 +9,11 @@ class LocalStroge {
     await _storage.write(key: _tokenKey, value: token);
   }
 
-  Future<String?> getToken() async {
+  static Future<String?> getToken() async {
     return await _storage.read(key: _tokenKey);
   }
 
-  Future<void> deleteToken() async {
+  static Future<void> removeToken() async {
     await _storage.delete(key: _tokenKey);
   }
 }

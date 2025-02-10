@@ -27,10 +27,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
         token: token,
         errorMessage: null,
       );
-      print("login successful");
       if (rememberMe) {
         await LocalStroge.saveToken(token);
-        print("token saved $token");
       }
     } on DioException catch (e) {
       state = state.copyWith(

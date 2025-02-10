@@ -3,17 +3,27 @@ import 'package:book_app_intern_project/core/constant/app_assets.dart';
 import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../../core/constant/app_strings.dart';
+import '../../domain/enum/auth_status.dart';
+import '../providers/auth_provider.dart';
 
 @RoutePage()
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AuthStatus>(authProvider, (previous, next) {
+      if (next == AuthStatus.authenticated) {
+        context.pushRoute(const HomeRoute());
+      }
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(authProvider.notifier).checkAuthStatus();
+    });
     return Scaffold(
       backgroundColor: AppTheme.lightTheme.colorScheme.primary,
       body: Padding(
