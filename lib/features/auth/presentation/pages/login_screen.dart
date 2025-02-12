@@ -11,6 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/widgets/custom_toast.dart';
+import '../states/login_state.dart';
+import '../widgets/custom_overlay.dart';
 
 @RoutePage()
 class LoginScreen extends ConsumerWidget {
@@ -21,10 +23,6 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final loginState = ref.watch(loginNotifierProvider);
-    final loginNotifier = ref.read(loginNotifierProvider.notifier);
-    final rememberMe = ref.watch(rememberMeProvider);
-
     return Scaffold(
       backgroundColor: AppTheme.lightTheme.colorScheme.surface,
       body: SingleChildScrollView(
@@ -62,16 +60,78 @@ class LoginScreen extends ConsumerWidget {
               ),
               SizedBox(height: 130.h),
               _LoginButton(
-                loginNotifier: loginNotifier,
                 passwordController: passwordController,
                 emailController: emailController,
-                rememberMe: rememberMe,
               ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class _LoginButton extends ConsumerWidget {
+  const _LoginButton({
+    required this.emailController,
+    required this.passwordController,
+  });
+
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginNotifier = ref.read(loginNotifierProvider.notifier);
+    final rememberMe = ref.watch(rememberMeProvider);
+    ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
+      if (!next.isLoading && next.errorMessage == null) {
+        CustomToast.showSuccess("Giriş Basarılı!");
+        context.router.replace(const HomeRoute());
+      } else if (next.errorMessage != null) {
+        CustomToast.showError(
+            "Giriş Basarısız lütfen bilgilerinizi kontrol edinizzz");
+      }
+    });
+    // final overlay = OverlayEntry(
+    //   builder: (context) => const CustomOverlay(
+    //     msg: "Giriş Yapılıyor...",
+    //   ),
+    // );
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () async {
+          if (!_validateInputs(context)) return;
+          //Overlay.of(context).insert(overlay);
+
+          loginNotifier.login(
+            emailController.text.trim(),
+            passwordController.text.trim(),
+            rememberMe,
+          );
+        },
+        child: const Text(AppStrings.login),
+      ),
+    );
+  }
+
+  bool _validateInputs(BuildContext context) {
+    // Validate email
+    final emailError = Validators.validateEmail(emailController.text);
+    if (emailError != null) {
+      CustomToast.showError(emailError);
+      return false;
+    }
+
+    // Validate password
+    final passwordError = Validators.validatePassword(passwordController.text);
+    if (passwordError != null) {
+      CustomToast.showError(passwordError);
+      return false;
+    }
+
+    return true;
   }
 }
 
@@ -148,86 +208,6 @@ class _Logo extends StatelessWidget {
           AppAssets.logo,
           height: 65.sp,
         ),
-      ),
-    );
-  }
-}
-
-class _LoginButton extends ConsumerWidget {
-  const _LoginButton({
-    required this.loginNotifier,
-    required this.emailController,
-    required this.passwordController,
-    required this.rememberMe,
-  });
-
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
-  final LoginNotifier loginNotifier;
-  final bool rememberMe;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () async {
-          final emailError = Validators.validateEmail(emailController.text);
-          if (emailError != null) {
-            CustomToast.showError(emailError);
-            return;
-          }
-
-          // Validate password
-          final passwordError =
-              Validators.validatePassword(passwordController.text);
-          if (passwordError != null) {
-            CustomToast.showError(passwordError);
-            return;
-          }
-
-          // Show loading indicator
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const AlertDialog(
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text("Giriş Yapılıyor..."),
-                ],
-              ),
-            ),
-          );
-
-          try {
-            // Login process
-            await ref.read(loginNotifierProvider.notifier).login(
-                  emailController.text.trim(),
-                  passwordController.text.trim(),
-                  rememberMe,
-                );
-
-            // Success status
-            if (ref.read(loginNotifierProvider).errorMessage == null) {
-              if (context.mounted) {
-                Navigator.of(context).pop();
-                context.router.replace(const HomeRoute());
-              }
-            } else {
-              // Error status
-              if (context.mounted) {
-                Navigator.of(context).pop();
-                CustomToast.showError('Giriş bilgilerinizi kontrol ediniz');
-              }
-            }
-          } catch (e) {
-            throw Exception(e);
-          }
-        },
-        child: const Text(AppStrings.login),
       ),
     );
   }

@@ -24,6 +24,7 @@ class SplashScreen extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(authProvider.notifier).checkAuthStatus();
     });
+
     return Scaffold(
       backgroundColor: AppTheme.lightTheme.colorScheme.primary,
       body: Padding(

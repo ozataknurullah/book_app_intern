@@ -19,19 +19,20 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
 
   /// REGISTER
   Future<void> register(String name, String email, String password) async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
-
+    state = state.copyWith(
+      isLoading: true,
+      errorMessage: null,
+    );
     try {
-      final token = await registerRepository.register(name, email, password);
+      await registerRepository.register(name, email, password);
       state = state.copyWith(
-          isLoading: false,
-          token: token,
-          successMessage: "Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+        isLoading: false,
+        errorMessage: null,
+      );
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        errorMessage: "Kayıt başarısız: ${e.toString()}",
-        successMessage: null,
+        errorMessage: e.toString(),
       );
     }
   }

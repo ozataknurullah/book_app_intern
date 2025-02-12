@@ -16,11 +16,11 @@ class RegisterRepositoryImpl implements RegisterRepository {
         ApiRoutes.register,
         {'name': name, 'email': email, 'password': password},
       );
-      return response['action_login']['token'];
+      return response['action_register']['token'];
     } on DioException catch (e) {
       if (e.response?.statusCode == 500) {
         throw Exception(
-            'Kayıt işlemi başarısız oldu. Lütfen bilgilerinizi kontrol ediniz.');
+            'Kayıt işlemi başarısız oldu. Lütfen bilgilerinizi kontrol ediniz');
       }
       throw Exception('Bir hata oluştu. Lütfen tekrar deneyiniz.');
     } catch (e) {

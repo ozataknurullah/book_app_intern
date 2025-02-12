@@ -3,14 +3,14 @@ class RegisterState {
   final String? token;
   final String? errorMessage;
   final bool isValidEmail;
+  final bool isValidName;
   final bool isValidPassword;
-  final bool shouldShowDialog;
 
   RegisterState({
     required this.isLoading,
     required this.isValidEmail,
+    required this.isValidName,
     required this.isValidPassword,
-    required this.shouldShowDialog,
     this.token,
     this.errorMessage,
   });
@@ -21,26 +21,26 @@ class RegisterState {
         token: null,
         errorMessage: null,
         isValidEmail: false,
+        isValidName: false,
         isValidPassword: false,
-        shouldShowDialog: false,
       );
 
-  RegisterState copyWith(
-      {bool? isLoading,
-      String? token,
-      String? errorMessage,
-      String? successMessage,
-      bool? isValidEmail,
-      bool? isValidPassword,
-      bool? shouldShowDialog}) {
+  RegisterState copyWith({
+    bool? isLoading,
+    String? token,
+    String? errorMessage,
+    String? successMessage,
+    bool? isValidEmail,
+    bool? isValidName,
+    bool? isValidPassword,
+  }) {
     return RegisterState(
-      shouldShowDialog: shouldShowDialog ?? this.shouldShowDialog,
       isLoading: isLoading ?? this.isLoading,
       isValidEmail: isValidEmail ?? this.isValidEmail,
+      isValidName: isValidName ?? this.isValidName,
       isValidPassword: isValidPassword ?? this.isValidPassword,
       token: token ?? this.token,
-      errorMessage:
-          errorMessage ?? (successMessage != null ? null : this.errorMessage),
+      errorMessage: errorMessage,
     );
   }
 }

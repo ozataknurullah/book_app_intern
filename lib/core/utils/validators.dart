@@ -1,4 +1,11 @@
 class Validators {
+  static String? validateName(String value) {
+    if (value.isEmpty) {
+      return 'İsim alanı boş olamaz';
+    }
+    return null;
+  }
+
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return "Email alanı boş olamaz";

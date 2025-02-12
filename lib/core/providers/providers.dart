@@ -24,9 +24,7 @@ final apiServiceProvider = Provider<ApiService>((ref) {
 
 /// LoginRepository provider
 final loginRepositoryProvider = Provider<LoginRepository>((ref) {
-  return LoginRepositoryImpl(
-    ref.read(apiServiceProvider),
-  );
+  return LoginRepositoryImpl(ref.read(apiServiceProvider));
 });
 
 /// RegisterRepository provider

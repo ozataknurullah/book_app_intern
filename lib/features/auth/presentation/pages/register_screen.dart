@@ -1,13 +1,18 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:book_app_intern_project/core/constant/app_assets.dart';
-import 'package:book_app_intern_project/core/constant/app_strings.dart';
-import 'package:book_app_intern_project/core/theme/app_theme.dart';
-import 'package:book_app_intern_project/core/widgets/custom_text_field.dart';
-import 'package:book_app_intern_project/features/auth/presentation/providers/register_provider.dart';
+import '../../../../core/constant/app_assets.dart';
+import '../../../../core/constant/app_strings.dart';
+import '../../../../core/routes/app_router.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/validators.dart';
+import '../../../../core/widgets/custom_text_field.dart';
+import '../../../../core/widgets/custom_toast.dart';
+import '../providers/register_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../states/register_state.dart';
 
 @RoutePage()
 class RegisterScreen extends ConsumerWidget {
@@ -19,9 +24,6 @@ class RegisterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final registerState = ref.watch(registerNotifierProvider);
-    final registerNotifier = ref.read(registerNotifierProvider.notifier);
-
     return Scaffold(
       backgroundColor: AppTheme.lightTheme.colorScheme.surface,
       body: SingleChildScrollView(
@@ -56,16 +58,11 @@ class RegisterScreen extends ConsumerWidget {
               ),
               const _LoginTextButton(),
               SizedBox(height: 35.h),
-              registerState.isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : _RegisterButton(
-                      registerNotifier: registerNotifier,
-                      emailController: emailController,
-                      nameController: nameController,
-                      passwordController: passwordController,
-                    ),
+              _RegisterButton(
+                emailController: emailController,
+                nameController: nameController,
+                passwordController: passwordController,
+              ),
             ],
           ),
         ),
@@ -76,33 +73,67 @@ class RegisterScreen extends ConsumerWidget {
   //
 }
 
-class _RegisterButton extends StatelessWidget {
-  final RegisterNotifier registerNotifier;
+class _RegisterButton extends ConsumerWidget {
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
 
-  const _RegisterButton(
-      {required this.registerNotifier,
-      required this.nameController,
-      required this.emailController,
-      required this.passwordController});
+  const _RegisterButton({
+    required this.nameController,
+    required this.emailController,
+    required this.passwordController,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final registerNotifier = ref.read(registerNotifierProvider.notifier);
+
+    ref.listen<RegisterState>(registerNotifierProvider, (previous, next) {
+      if (next.errorMessage == null) {
+        CustomToast.showSuccess("Kayıt başarılı!");
+        context.router.replace(LoginRoute());
+      } else if (next.errorMessage != null) {
+        CustomToast.showError("Kayıt sırasında hata oluştu");
+      }
+    });
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
+          if (!_validateInputs(context)) return;
+
+          // start the regisster process
           registerNotifier.register(
-            nameController.text,
-            emailController.text,
-            passwordController.text,
+            nameController.text.trim(),
+            emailController.text.trim(),
+            passwordController.text.trim(),
           );
         },
         child: const Text(AppStrings.register),
       ),
     );
+  }
+
+  bool _validateInputs(BuildContext context) {
+    // Name Validation
+    final nameError = Validators.validateName(nameController.text);
+    if (nameError != null) {
+      CustomToast.showError(nameError);
+      return false;
+    }
+    // Email Validation
+    final emailError = Validators.validateEmail(emailController.text);
+    if (emailError != null) {
+      CustomToast.showError(emailError);
+      return false;
+    }
+    // Password Validation
+    final passwordError = Validators.validatePassword(passwordController.text);
+    if (passwordError != null) {
+      CustomToast.showError(passwordError);
+      return false;
+    }
+    return true;
   }
 }
 
@@ -116,7 +147,7 @@ class _LoginTextButton extends StatelessWidget {
       children: [
         TextButton(
           onPressed: () {
-            context.router.maybePop();
+            context.router.replace(LoginRoute());
           },
           child: const Text(AppStrings.login),
         ),
