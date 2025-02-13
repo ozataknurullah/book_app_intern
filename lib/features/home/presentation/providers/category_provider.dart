@@ -1,26 +1,26 @@
-import 'package:book_app_intern_project/features/home/data/repositories/category_repository_impl.dart';
+import 'package:book_app_intern_project/core/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/datasources/category_datasource.dart';
 import '../../domain/repositories/category_repository.dart';
 import '../states/category_state.dart';
 
 final categoryProvider =
     StateNotifierProvider<CategoryNotifier, CategoryState>((ref) {
-  final repository = CategoryRepositoryImpl(CategoryDataSource());
-  return CategoryNotifier(repository);
+  return CategoryNotifier(
+      categoryRepository: ref.read(categoryRepositoryProvider));
 });
 
 class CategoryNotifier extends StateNotifier<CategoryState> {
-  final CategoryRepository repository;
+  final CategoryRepository categoryRepository;
 
-  CategoryNotifier(this.repository) : super(CategoryState.initial()) {
+  CategoryNotifier({required this.categoryRepository})
+      : super(CategoryState.initial()) {
     fetchCategories();
   }
 
   Future<void> fetchCategories() async {
     state = CategoryState(isLoading: true, categories: []);
     try {
-      final categories = await repository.getCategories();
+      final categories = await categoryRepository.getCategories();
       state = CategoryState(isLoading: false, categories: categories);
     } catch (e) {
       state = CategoryState(

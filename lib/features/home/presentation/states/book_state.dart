@@ -2,26 +2,26 @@ import 'package:book_app_intern_project/features/home/domain/models/book_model.d
 
 class BookState {
   final bool isLoading;
-  final BookModel? book;
+  final List<BookModel> books;
   final String? errorMessage;
 
   BookState({
     required this.isLoading,
-    this.book,
+    required this.books,
     this.errorMessage,
   });
 
-  factory BookState.initial() => BookState(isLoading: false, book: null);
+  factory BookState.initial() => BookState(isLoading: false, books: []);
 
   BookState copyWith({
     bool? isLoading,
-    BookModel? book,
+    List<BookModel>? books,
     String? errorMessage,
   }) {
     return BookState(
       isLoading: isLoading ?? this.isLoading,
-      book: book ?? this.book,
-      errorMessage: errorMessage ?? this.errorMessage,
+      books: books ?? this.books,
+      errorMessage: errorMessage,
     );
   }
 }

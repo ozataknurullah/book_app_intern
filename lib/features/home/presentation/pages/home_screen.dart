@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/features/home/presentation/providers/book_provider.dart';
 import 'package:book_app_intern_project/features/home/presentation/states/book_category_state.dart';
 import 'package:book_app_intern_project/features/home/presentation/states/category_state.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -18,34 +19,47 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //For the top categories and this is static var
     final bookCategoryState = ref.watch(bookCategoryProvider);
     final bookCategoryNotifier = ref.read(bookCategoryProvider.notifier);
+    //
+
     final categoryState = ref.watch(categoryProvider);
+
     final TextEditingController searchController = TextEditingController();
 
     return Scaffold(
       appBar: const CustomAppBar(title: "Catalog", showBackButton: false),
-      body: bookCategoryState.isLoading
+      body: bookCategoryState.isLoading || categoryState.isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 15.h),
-                //Book Categories Section
-                _HorizantalBookCategorySection(
-                    bookCategoryState: bookCategoryState,
-                    bookCategoryNotifier: bookCategoryNotifier),
-                SizedBox(height: 20.h),
-                _SearchField(searchController: searchController),
-                SizedBox(height: 20.h),
-                _BookSliderSection(categoryState: categoryState),
-              ],
-            ),
+          : bookCategoryState.errorMessage != null ||
+                  categoryState.errorMessage != null
+              ? Center(
+                  child: Text(
+                    bookCategoryState.errorMessage ??
+                        categoryState.errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 15.h),
+                    //Book Categories Section
+                    _HorizantalBookCategorySection(
+                        bookCategoryState: bookCategoryState,
+                        bookCategoryNotifier: bookCategoryNotifier),
+                    SizedBox(height: 20.h),
+                    _SearchField(searchController: searchController),
+                    SizedBox(height: 20.h),
+                    _BookSliderSection(categoryState: categoryState),
+                  ],
+                ),
     );
   }
 }
 
-class _BookSliderSection extends StatelessWidget {
+class _BookSliderSection extends ConsumerWidget {
   const _BookSliderSection({
     required this.categoryState,
   });
@@ -53,19 +67,20 @@ class _BookSliderSection extends StatelessWidget {
   final CategoryState categoryState;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
       child: ListView.builder(
         padding: EdgeInsets.only(top: 20.h),
         itemCount: categoryState.categories.length,
         itemBuilder: (context, index) {
           final category = categoryState.categories[index];
+          final bookState = ref.read(bookProvider(category.id));
           return BookCategorySection(
-            categoryTitle: category.title,
-            books: category.books,
-            onBookTap: (book) =>
-                context.pushRoute(BookDetailRoute(bookId: book.id)),
-          );
+              categoryTitle: category.name,
+              bookState: bookState,
+              onBookTap: (book) => context.pushRoute(
+                  const HomeRoute()) //context.pushRoute(BookDetailRoute(bookId: book.id)),
+              );
         },
       ),
     );
@@ -89,6 +104,7 @@ class _SearchField extends StatelessWidget {
   }
 }
 
+//Top category
 class _HorizantalBookCategorySection extends StatelessWidget {
   const _HorizantalBookCategorySection({
     required this.bookCategoryState,

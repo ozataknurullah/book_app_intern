@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/features/auth/presentation/widgets/custom_overlay.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/constant/app_strings.dart';
-import '../../../../core/routes/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/custom_text_field.dart';

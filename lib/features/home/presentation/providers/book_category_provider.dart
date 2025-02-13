@@ -1,6 +1,6 @@
 import 'package:book_app_intern_project/features/home/domain/repositories/book_category_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/datasources/book_category_datasource.dart';
+import '../../data/datasources/book_category_data_source.dart';
 import '../../data/repositories/book_category_repository_impl.dart';
 import '../states/book_category_state.dart';
 

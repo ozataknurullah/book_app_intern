@@ -10,42 +10,42 @@
 
 part of 'app_router.dart';
 
-/// generated route for
-/// [BookDetailScreen]
-class BookDetailRoute extends PageRouteInfo<BookDetailRouteArgs> {
-  BookDetailRoute({
-    Key? key,
-    required String bookId,
-    List<PageRouteInfo>? children,
-  }) : super(
-          BookDetailRoute.name,
-          args: BookDetailRouteArgs(key: key, bookId: bookId),
-          initialChildren: children,
-        );
+// /// generated route for
+// /// [BookDetailScreen]
+// class BookDetailRoute extends PageRouteInfo<BookDetailRouteArgs> {
+//   BookDetailRoute({
+//     Key? key,
+//     required String bookId,
+//     List<PageRouteInfo>? children,
+//   }) : super(
+//           BookDetailRoute.name,
+//           args: BookDetailRouteArgs(key: key, bookId: bookId),
+//           initialChildren: children,
+//         );
 
-  static const String name = 'BookDetailRoute';
+//   static const String name = 'BookDetailRoute';
 
-  static PageInfo page = PageInfo(
-    name,
-    builder: (data) {
-      final args = data.argsAs<BookDetailRouteArgs>();
-      return BookDetailScreen(key: args.key, bookId: args.bookId);
-    },
-  );
-}
+//   static PageInfo page = PageInfo(
+//     name,
+//     builder: (data) {
+//       final args = data.argsAs<BookDetailRouteArgs>();
+//       return BookDetailScreen(key: args.key, bookId: args.bookId);
+//     },
+//   );
+// }
 
-class BookDetailRouteArgs {
-  const BookDetailRouteArgs({this.key, required this.bookId});
+// class BookDetailRouteArgs {
+//   const BookDetailRouteArgs({this.key, required this.bookId});
 
-  final Key? key;
+//   final Key? key;
 
-  final String bookId;
+//   final String bookId;
 
-  @override
-  String toString() {
-    return 'BookDetailRouteArgs{key: $key, bookId: $bookId}';
-  }
-}
+//   @override
+//   String toString() {
+//     return 'BookDetailRouteArgs{key: $key, bookId: $bookId}';
+//   }
+// }
 
 /// generated route for
 /// [CategoryScreen]

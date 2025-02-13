@@ -6,16 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/routes/app_router.dart';
+import '../states/book_state.dart';
 
 class BookCategorySection extends StatelessWidget {
   final String categoryTitle;
-  final List<BookModel> books;
+  final BookState bookState;
   final void Function(BookModel book) onBookTap;
 
   const BookCategorySection({
     super.key,
     required this.categoryTitle,
-    required this.books,
+    required this.bookState,
     required this.onBookTap,
   });
 
@@ -24,9 +25,18 @@ class BookCategorySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _CategoryTitleAndViewButton(categoryTitle: categoryTitle, books: books),
+        _CategoryTitleAndViewButton(
+            categoryTitle: categoryTitle, books: bookState.books),
         const SizedBox(height: 16),
-        _BookSection(books: books, onBookTap: onBookTap),
+        if (bookState.isLoading)
+          const Center(child: CircularProgressIndicator())
+        else if (bookState.errorMessage != null)
+          Center(
+            child: Text(bookState.errorMessage!,
+                style: const TextStyle(color: Colors.red)),
+          )
+        else
+          _BookSection(books: bookState.books, onBookTap: onBookTap),
       ],
     );
   }
@@ -59,7 +69,7 @@ class _BookSection extends StatelessWidget {
               return GestureDetector(
                 onTap: () => onBookTap(book),
                 child: HorizantalBookCard(
-                  book: books[index],
+                  book: book,
                 ),
               );
             },
@@ -82,12 +92,15 @@ class _CategoryTitleAndViewButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       // Category title and viewAll text button
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(categoryTitle, style: AppTheme.lightTheme.textTheme.bodyLarge),
+          Text(
+            categoryTitle,
+            style: AppTheme.lightTheme.textTheme.bodyLarge,
+          ),
           TextButton(
             onPressed: () {
               context.pushRoute(
