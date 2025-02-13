@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/features/auth/presentation/widgets/custom_overlay.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/constant/app_strings.dart';
 import '../../../../core/routes/app_router.dart';
@@ -87,13 +88,21 @@ class _RegisterButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final registerNotifier = ref.read(registerNotifierProvider.notifier);
+    final overlay = OverlayEntry(
+      builder: (context) => const CustomOverlay(
+        msg: "Kayıt Yapılıyor...",
+      ),
+    );
 
     ref.listen<RegisterState>(registerNotifierProvider, (previous, next) {
-      if (next.errorMessage == null) {
+      if (!next.isLoading && next.errorMessage == null) {
+        overlay.remove();
         CustomToast.showSuccess("Kayıt başarılı!");
-        context.router.replace(LoginRoute());
+        context.router.maybePop();
       } else if (next.errorMessage != null) {
-        CustomToast.showError("Kayıt sırasında hata oluştu");
+        overlay.remove();
+        CustomToast.showError(
+            "Kayıt sırasında hata oluştu, lütfen bilgilerinizi kontrol ediniz");
       }
     });
     return SizedBox(
@@ -101,6 +110,7 @@ class _RegisterButton extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: () async {
           if (!_validateInputs(context)) return;
+          Overlay.of(context).insert(overlay);
 
           // start the regisster process
           registerNotifier.register(
@@ -147,7 +157,7 @@ class _LoginTextButton extends StatelessWidget {
       children: [
         TextButton(
           onPressed: () {
-            context.router.replace(LoginRoute());
+            context.router.maybePop();
           },
           child: const Text(AppStrings.login),
         ),

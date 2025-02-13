@@ -84,26 +84,30 @@ class _LoginButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loginNotifier = ref.read(loginNotifierProvider.notifier);
     final rememberMe = ref.watch(rememberMeProvider);
+    final overlay = OverlayEntry(
+      builder: (context) => const CustomOverlay(
+        msg: "Giriş Yapılıyor...",
+      ),
+    );
+
     ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
       if (!next.isLoading && next.errorMessage == null) {
+        overlay.remove();
         CustomToast.showSuccess("Giriş Basarılı!");
         context.router.replace(const HomeRoute());
       } else if (next.errorMessage != null) {
+        overlay.remove();
         CustomToast.showError(
             "Giriş Basarısız lütfen bilgilerinizi kontrol edinizzz");
       }
     });
-    // final overlay = OverlayEntry(
-    //   builder: (context) => const CustomOverlay(
-    //     msg: "Giriş Yapılıyor...",
-    //   ),
-    // );
+
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
           if (!_validateInputs(context)) return;
-          //Overlay.of(context).insert(overlay);
+          Overlay.of(context).insert(overlay);
 
           loginNotifier.login(
             emailController.text.trim(),
