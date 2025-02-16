@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/features/home/domain/models/category_model.dart';
 import 'package:book_app_intern_project/features/home/presentation/providers/book_provider.dart';
 import 'package:book_app_intern_project/features/home/presentation/states/book_category_state.dart';
 import 'package:book_app_intern_project/features/home/presentation/states/category_state.dart';
@@ -22,8 +23,6 @@ class HomeScreen extends ConsumerWidget {
     //For the top categories and this is static var
     final bookCategoryState = ref.watch(bookCategoryProvider);
     final bookCategoryNotifier = ref.read(bookCategoryProvider.notifier);
-    //
-
     final categoryState = ref.watch(categoryProvider);
 
     final TextEditingController searchController = TextEditingController();
@@ -63,7 +62,6 @@ class _BookSliderSection extends ConsumerWidget {
   const _BookSliderSection({
     required this.categoryState,
   });
-
   final CategoryState categoryState;
 
   @override
@@ -73,10 +71,10 @@ class _BookSliderSection extends ConsumerWidget {
         padding: EdgeInsets.only(top: 20.h),
         itemCount: categoryState.categories.length,
         itemBuilder: (context, index) {
-          final category = categoryState.categories[index];
-          final bookState = ref.read(bookProvider(category.id));
+          final CategoryModel category = categoryState.categories[index];
+          final bookState = ref.watch(bookProvider(category.id));
           return BookCategorySection(
-              categoryTitle: category.name,
+              category: category,
               bookState: bookState,
               onBookTap: (book) => context.pushRoute(
                   const HomeRoute()) //context.pushRoute(BookDetailRoute(bookId: book.id)),

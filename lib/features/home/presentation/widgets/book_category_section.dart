@@ -3,40 +3,39 @@ import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/features/home/domain/models/book_model.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/horizantal_book_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/routes/app_router.dart';
+import '../../domain/models/category_model.dart';
 import '../states/book_state.dart';
 
-class BookCategorySection extends StatelessWidget {
-  final String categoryTitle;
+class BookCategorySection extends ConsumerWidget {
+  final CategoryModel category;
   final BookState bookState;
   final void Function(BookModel book) onBookTap;
 
   const BookCategorySection({
     super.key,
-    required this.categoryTitle,
+    required this.category,
     required this.bookState,
     required this.onBookTap,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _CategoryTitleAndViewButton(
-            categoryTitle: categoryTitle, books: bookState.books),
+            categoryTitle: category.name, books: bookState.books),
         const SizedBox(height: 16),
-        if (bookState.isLoading)
-          const Center(child: CircularProgressIndicator())
-        else if (bookState.errorMessage != null)
-          Center(
-            child: Text(bookState.errorMessage!,
-                style: const TextStyle(color: Colors.red)),
-          )
-        else
-          _BookSection(books: bookState.books, onBookTap: onBookTap),
+        bookState.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : bookState.errorMessage != null
+                ? Center(
+                    child: Text(bookState.errorMessage!,
+                        style: const TextStyle(color: Colors.red)))
+                : _BookSection(books: bookState.books, onBookTap: onBookTap),
       ],
     );
   }

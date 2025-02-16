@@ -60,10 +60,11 @@ class _BookGridView extends StatelessWidget {
             final book = books[index];
             return GestureDetector(
               onTap: () {
-                context.pushRoute(const HomeRoute());//context.pushRoute(BookDetailRoute(bookId: book.id));
+                context.pushRoute(
+                    const HomeRoute()); //context.pushRoute(BookDetailRoute(bookId: book.id));
               },
               child: VerticalBookCard(
-                book: books[index],
+                book: book,
               ),
             );
           },

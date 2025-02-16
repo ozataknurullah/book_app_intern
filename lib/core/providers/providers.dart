@@ -3,6 +3,7 @@ import 'package:book_app_intern_project/features/home/data/datasources/book_data
 import 'package:book_app_intern_project/features/home/data/datasources/category_data_source.dart';
 import 'package:book_app_intern_project/features/home/data/repositories/category_repository_impl.dart';
 import 'package:book_app_intern_project/features/home/domain/repositories/book_cover_repository.dart';
+import 'package:book_app_intern_project/services/network/interceptors/auth_interceptors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/auth/data/repositories/login_repository_impl.dart';
 import '../../features/auth/data/repositories/register_repository_impl.dart';
@@ -18,12 +19,16 @@ import '../../services/network/services.dart';
 
 /// Dio provider.
 final dioProvider = Provider<Dio>((ref) {
-  return Dio(BaseOptions(
+  final dio = Dio(BaseOptions(
     baseUrl: dotenv.env['BASE_URL']!,
     connectTimeout: const Duration(seconds: 30),
     receiveTimeout: const Duration(seconds: 30),
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+    },
   ));
+  dio.interceptors.add(AuthInterceptor());
+  return dio;
 });
 
 /// ApiService provider

@@ -11,6 +11,7 @@ class ApiService {
   Future<dynamic> get(String endpoint) async {
     try {
       Response response = await _dio.get(endpoint);
+
       return response.data;
     } catch (e) {
       throw Exception(ErrorMapper.getErrorMessage(e));

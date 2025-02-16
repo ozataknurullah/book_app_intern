@@ -13,8 +13,12 @@ class BookNotifier extends StateNotifier<BookState> {
   final BookRepository bookRepository;
   final int categoryId;
 
-  BookNotifier(this.bookRepository, this.categoryId)
-      : super(BookState.initial());
+  BookNotifier(
+    this.bookRepository,
+    this.categoryId,
+  ) : super(BookState.initial()) {
+    fetchBooks();
+  }
 
   Future<void> fetchBooks() async {
     try {

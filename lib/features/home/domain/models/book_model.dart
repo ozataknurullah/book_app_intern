@@ -1,6 +1,6 @@
 class BookModel {
-  final String id;
-  final String title;
+  final int id;
+  final String name;
   final String author;
   final double price;
   final String cover;
@@ -8,7 +8,7 @@ class BookModel {
 
   BookModel({
     required this.id,
-    required this.title,
+    required this.name,
     required this.author,
     required this.price,
     required this.cover,
@@ -17,11 +17,11 @@ class BookModel {
 
   factory BookModel.fromJson(Map<String, dynamic> json) {
     return BookModel(
-      id: json['id'] as String,
-      title: json['title'] as String,
+      id: json['id'] as int,
+      name: json['name'] as String,
       author: json['author'] as String,
       price: json['price'].toDouble(),
-      cover: json['imageUrl'] as String,
+      cover: json['cover'] as String,
       description: json['description'] as String,
     );
   }

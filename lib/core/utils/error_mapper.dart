@@ -10,7 +10,7 @@ class ErrorMapper {
           return "Sunucu yanıt vermedi. Daha sonra tekrar deneyin.";
         case DioExceptionType.badResponse:
           if (error.response?.statusCode == 400) {
-            return "Geçersiz giriş bilgileri. Lütfen tekrar deneyin.";
+            return "Lütfen tekrar deneyin.";
           } else if (error.response?.statusCode == 500) {
             return "Sunucuda bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
           }

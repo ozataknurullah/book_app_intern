@@ -1,5 +1,5 @@
-import 'package:book_app_intern_project/core/constant/app_assets.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
+import 'package:book_app_intern_project/features/home/presentation/widgets/load_book_images_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:book_app_intern_project/features/home/domain/models/book_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,28 +34,14 @@ class HorizantalBookCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const _BookImage(),
+            LoadBookImagesWidget(
+              fileName: book.cover,
+            ),
             SizedBox(width: 2.w),
             //Texts
             _BookDetails(book: book),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _BookImage extends StatelessWidget {
-  const _BookImage();
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8.r),
-      child: Image.asset(
-        AppAssets.book,
-        width: 80.w,
-        height: 120.h,
       ),
     );
   }
@@ -80,7 +66,7 @@ class _BookDetails extends StatelessWidget {
             children: [
               // The Book Name
               Text(
-                book.title,
+                book.name,
                 style: AppTheme.lightTheme.textTheme.headlineMedium,
                 maxLines: null,
               ),

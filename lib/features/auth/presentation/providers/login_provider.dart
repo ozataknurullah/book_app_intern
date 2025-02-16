@@ -1,5 +1,6 @@
 import 'package:book_app_intern_project/services/local/local_stroge.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/utils/auth_token.dart';
 import '../../domain/repositories/login_repository.dart';
 import '../../../../core/providers/providers.dart';
 import '../states/login_state.dart';
@@ -32,6 +33,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       if (rememberMe) {
         await LocalStroge.saveToken(token);
       }
+      AuthToken.token = token;
     } catch (e) {
       state = state.copyWith(
         isLoading: false,

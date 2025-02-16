@@ -1,4 +1,4 @@
-import 'package:book_app_intern_project/core/constant/app_assets.dart';
+import 'package:book_app_intern_project/features/home/presentation/widgets/load_book_images_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,7 +27,11 @@ class VerticalBookCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Book Picture
-          const _BookImage(),
+          LoadBookImagesWidget(
+            fileName: book.cover,
+            width: 170.w,
+            height: 284.h,
+          ),
           SizedBox(height: 8.h),
           // Book Name
           _BookTitle(book: book),
@@ -89,28 +93,11 @@ class _BookTitle extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.w),
       child: Text(
-        book.title,
+        book.name,
         style: AppTheme.lightTheme.textTheme.displayMedium
             ?.copyWith(color: Colors.black),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-      ),
-    );
-  }
-}
-
-class _BookImage extends StatelessWidget {
-  const _BookImage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(4.r),
-        child: Image.asset(
-          AppAssets.book,
-        ),
       ),
     );
   }

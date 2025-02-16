@@ -1,6 +1,5 @@
 import 'package:book_app_intern_project/core/constant/api_routes.dart';
 import 'package:book_app_intern_project/services/network/services.dart';
-
 import '../../domain/models/book_model.dart';
 
 class BookDataSource {
@@ -10,12 +9,16 @@ class BookDataSource {
 
   Future<List<BookModel>> getBooksByCategory(int categoryId) async {
     try {
-      final response = await apiService.get(ApiRoutes.getProducts(categoryId));
+      final url = ApiRoutes.getProducts(categoryId);
+      final response = await apiService.get(url);
+      List<dynamic> bookList = response['product'];
 
-      List<dynamic> bookList = response.data['product'];
+      // İlk öğeyi detaylı yazdırarak JSON formatını kontrol edelim
+      if (bookList.isNotEmpty) {}
+
       return bookList.map((json) => BookModel.fromJson(json)).toList();
     } catch (e) {
-      throw Exception("Api Error");
+      throw Exception("Api Errror: $e");
     }
   }
 }
