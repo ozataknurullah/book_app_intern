@@ -8,4 +8,8 @@ class JwtHelper {
     }
     return true;
   }
+
+  static Map<String, dynamic> getPayload(String token) {
+    return JwtDecoder.decode(token);
+  }
 }

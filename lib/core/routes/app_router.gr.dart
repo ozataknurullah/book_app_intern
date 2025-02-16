@@ -54,6 +54,7 @@ class CategoryRoute extends PageRouteInfo<CategoryRouteArgs> {
     Key? key,
     required String categoryTitle,
     required List<BookModel> books,
+    required void Function(BookModel) onBookTap,
     List<PageRouteInfo>? children,
   }) : super(
          CategoryRoute.name,
@@ -61,6 +62,7 @@ class CategoryRoute extends PageRouteInfo<CategoryRouteArgs> {
            key: key,
            categoryTitle: categoryTitle,
            books: books,
+           onBookTap: onBookTap,
          ),
          initialChildren: children,
        );
@@ -75,6 +77,7 @@ class CategoryRoute extends PageRouteInfo<CategoryRouteArgs> {
         key: args.key,
         categoryTitle: args.categoryTitle,
         books: args.books,
+        onBookTap: args.onBookTap,
       );
     },
   );
@@ -85,6 +88,7 @@ class CategoryRouteArgs {
     this.key,
     required this.categoryTitle,
     required this.books,
+    required this.onBookTap,
   });
 
   final Key? key;
@@ -93,9 +97,11 @@ class CategoryRouteArgs {
 
   final List<BookModel> books;
 
+  final void Function(BookModel) onBookTap;
+
   @override
   String toString() {
-    return 'CategoryRouteArgs{key: $key, categoryTitle: $categoryTitle, books: $books}';
+    return 'CategoryRouteArgs{key: $key, categoryTitle: $categoryTitle, books: $books, onBookTap: $onBookTap}';
   }
 }
 

@@ -27,7 +27,10 @@ class BookCategorySection extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _CategoryTitleAndViewButton(
-            categoryTitle: category.name, books: bookState.books),
+          categoryTitle: category.name,
+          books: bookState.books,
+          onBookTap: onBookTap,
+        ),
         const SizedBox(height: 16),
         bookState.isLoading
             ? const Center(child: CircularProgressIndicator())
@@ -86,10 +89,12 @@ class _CategoryTitleAndViewButton extends StatelessWidget {
   const _CategoryTitleAndViewButton({
     required this.categoryTitle,
     required this.books,
+    required this.onBookTap,
   });
 
   final String categoryTitle;
   final List<BookModel> books;
+  final void Function(BookModel book) onBookTap;
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +113,7 @@ class _CategoryTitleAndViewButton extends StatelessWidget {
               context.pushRoute(
                 CategoryRoute(
                   categoryTitle: categoryTitle,
+                  onBookTap: onBookTap,
                   books: books,
                 ),
               );

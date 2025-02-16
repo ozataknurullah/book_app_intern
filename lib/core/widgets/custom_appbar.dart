@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/constant/app_assets.dart';
+import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,12 +27,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       leading: showBackButton
-          ? const BackButton()
-          : Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SvgPicture.asset(
-                AppAssets.logo,
-                height: 50.sp,
+          ? BackButton(
+              onPressed: () {
+                context.router.replace(const HomeRoute());
+              },
+            )
+          : Builder(
+              builder: (context) => IconButton(
+                icon: SvgPicture.asset(
+                  AppAssets.logo,
+                  height: 50.sp,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
               ),
             ),
       bottom: PreferredSize(

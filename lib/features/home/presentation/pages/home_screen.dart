@@ -3,6 +3,7 @@ import 'package:book_app_intern_project/features/home/domain/models/category_mod
 import 'package:book_app_intern_project/features/home/presentation/providers/book_provider.dart';
 import 'package:book_app_intern_project/features/home/presentation/states/book_category_state.dart';
 import 'package:book_app_intern_project/features/home/presentation/states/category_state.dart';
+import 'package:book_app_intern_project/features/home/presentation/widgets/custom_drawer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/custom_appbar.dart';
 import '../widgets/book_category_section.dart';
@@ -28,7 +29,11 @@ class HomeScreen extends ConsumerWidget {
     final TextEditingController searchController = TextEditingController();
 
     return Scaffold(
-      appBar: const CustomAppBar(title: "Catalog", showBackButton: false),
+      appBar: const CustomAppBar(
+        title: "Catalog",
+        showBackButton: false,
+      ),
+      drawer: const CustomDrawer(),
       body: bookCategoryState.isLoading || categoryState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : bookCategoryState.errorMessage != null ||

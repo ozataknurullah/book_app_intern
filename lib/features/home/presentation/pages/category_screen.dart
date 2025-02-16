@@ -12,10 +12,12 @@ import '../../../../core/routes/app_router.dart';
 class CategoryScreen extends ConsumerWidget {
   final String categoryTitle;
   final List<BookModel> books;
+  final void Function(BookModel book) onBookTap;
   CategoryScreen({
     super.key,
     required this.categoryTitle,
     required this.books,
+    required this.onBookTap,
   });
 
   final TextEditingController searchController = TextEditingController();
@@ -31,7 +33,10 @@ class CategoryScreen extends ConsumerWidget {
             SizedBox(height: 15.h),
             _SearchField(searchController: searchController),
             SizedBox(height: 20.h),
-            _BookGridView(books: books),
+            _BookGridView(
+              books: books,
+              onBookTap: onBookTap,
+            ),
           ],
         ),
       ),
@@ -42,9 +47,11 @@ class CategoryScreen extends ConsumerWidget {
 class _BookGridView extends StatelessWidget {
   const _BookGridView({
     required this.books,
+    required this.onBookTap,
   });
 
   final List<BookModel> books;
+  final void Function(BookModel book) onBookTap;
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +67,8 @@ class _BookGridView extends StatelessWidget {
             final book = books[index];
             return GestureDetector(
               onTap: () {
-                context.pushRoute(
-                    const HomeRoute()); //context.pushRoute(BookDetailRoute(bookId: book.id));
+                onBookTap(book);
+                context.pushRoute(BookDetailRoute(book: book));
               },
               child: VerticalBookCard(
                 book: book,
