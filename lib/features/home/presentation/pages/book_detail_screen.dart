@@ -1,196 +1,178 @@
-// import 'package:auto_route/auto_route.dart';
-// import 'package:book_app_intern_project/core/constant/app_assets.dart';
-// import 'package:book_app_intern_project/core/theme/app_theme.dart';
-// import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
-// import 'package:book_app_intern_project/features/home/presentation/providers/book_provider.dart';
-// import 'package:book_app_intern_project/features/home/presentation/states/book_state.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/core/theme/app_theme.dart';
+import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
+import 'package:book_app_intern_project/features/home/presentation/widgets/load_book_images_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// import '../providers/favorite_button_provider.dart';
+import '../../domain/models/book_model.dart';
+import '../providers/favorite_button_provider.dart';
 
-// @RoutePage()
-// class BookDetailScreen extends ConsumerWidget {
-//   final String bookId;
+@RoutePage()
+class BookDetailScreen extends ConsumerWidget {
+  final BookModel book;
 
-//   const BookDetailScreen({super.key, required this.bookId});
+  const BookDetailScreen({super.key, required this.book});
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final bookState = ref.watch(bookProvider(bookId));
-//     return Scaffold(
-//       appBar: const CustomAppBar(title: "Book Details", showBackButton: true),
-//       body: bookState.isLoading
-//           ? const Center(child: CircularProgressIndicator())
-//           : bookState.errorMessage != null
-//               ? Center(child: Text("Error: ${bookState.errorMessage}"))
-//               : bookState.book == null
-//                   ? const Center(child: Text("Book not found"))
-//                   : Padding(
-//                       padding: EdgeInsets.symmetric(
-//                           horizontal: 16.w, vertical: 16.h),
-//                       child: Column(
-//                         crossAxisAlignment: CrossAxisAlignment.start,
-//                         children: [
-//                           const _BookImageAndFavIcon(),
-//                           SizedBox(height: 16.h),
-//                           _BookTitleAndAuthor(bookState: bookState),
-//                           SizedBox(height: 30.h),
-//                           _BookSummary(bookState: bookState),
-//                           SizedBox(height: 30.h),
-//                           _BuyNowButton(bookState: bookState),
-//                         ],
-//                       ),
-//                     ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: const CustomAppBar(title: "Book Details", showBackButton: true),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _BookImageAndFavIcon(book: book),
+            SizedBox(height: 16.h),
+            _BookTitleAndAuthor(book: book),
+            SizedBox(height: 30.h),
+            _BookSummary(book: book),
+            SizedBox(height: 30.h),
+            _BuyNowButton(book: book),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-// class _BookImageAndFavIcon extends StatelessWidget {
-//   const _BookImageAndFavIcon();
+class _BookImageAndFavIcon extends StatelessWidget {
+  const _BookImageAndFavIcon({
+    required this.book,
+  });
+  final BookModel book;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Column(
-//         children: [
-//           Stack(
-//             children: [
-//               const _BookImage(),
-//               SizedBox(width: 16.w),
-//               const _FavIcon(),
-//             ],
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              Center(
+                child: LoadBookImagesWidget(
+                  fileName: book.cover,
+                  width: 150.w,
+                  height: 225.h,
+                ),
+              ),
+              SizedBox(width: 16.w),
+              const _FavIcon(),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
 
-// class _FavIcon extends ConsumerWidget {
-//   const _FavIcon();
+class _BookTitleAndAuthor extends StatelessWidget {
+  const _BookTitleAndAuthor({
+    required this.book,
+  });
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final favoriteState = ref.watch(favoriteProvider);
+  final BookModel book;
 
-//     return Align(
-//       alignment: Alignment.topRight,
-//       child: GestureDetector(
-//         onTap: () {
-//           ref.read(favoriteProvider.notifier).toggleFavorite();
-//         },
-//         child: AnimatedScale(
-//           scale: favoriteState.scale,
-//           duration: const Duration(milliseconds: 150), // Animasyon süresi
-//           child: Icon(
-//             favoriteState.isFavorited ? Icons.favorite : Icons.favorite_border,
-//             color: favoriteState.isFavorited ? Colors.purple : Colors.grey,
-//             size: 30.0,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            book.name,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            book.author,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-// class _BookImage extends StatelessWidget {
-//   const _BookImage();
+class _BookSummary extends StatelessWidget {
+  const _BookSummary({
+    required this.book,
+  });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: ClipRRect(
-//         borderRadius: BorderRadius.circular(5.r),
-//         child: Image.asset(
-//           AppAssets.book,
-//           width: 140.w,
-//           height: 225.h,
-//         ),
-//       ),
-//     );
-//   }
-// }
+  final BookModel book;
 
-// class _BookTitleAndAuthor extends StatelessWidget {
-//   const _BookTitleAndAuthor({
-//     required this.bookState,
-//   });
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Summary",
+          style: AppTheme.lightTheme.textTheme.bodyLarge,
+        ),
+        SizedBox(height: 8.h),
+        SizedBox(
+          height: 245.h,
+          width: 350.w,
+          child: Text(
+            book.description,
+            style: AppTheme.lightTheme.textTheme.bodySmall,
+          ),
+        ),
+      ],
+    );
+  }
+}
 
-//   final BookState bookState;
+class _BuyNowButton extends StatelessWidget {
+  const _BuyNowButton({
+    required this.book,
+  });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Column(
-//         children: [
-//           Text(
-//             bookState.book!.title,
-//             style: Theme.of(context).textTheme.bodyLarge,
-//           ),
-//           SizedBox(height: 8.h),
-//           Text(
-//             bookState.book!.author,
-//             style: Theme.of(context).textTheme.bodySmall,
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  final BookModel book;
 
-// class _BuyNowButton extends StatelessWidget {
-//   const _BuyNowButton({
-//     required this.bookState,
-//   });
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("\$${book.price.toString()}"),
+            const Text("Buy Now"),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-//   final BookState bookState;
+class _FavIcon extends ConsumerWidget {
+  const _FavIcon();
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: double.infinity,
-//       child: ElevatedButton(
-//         onPressed: () {},
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Text("\$${bookState.book!.price.toString()}"),
-//             const Text("Buy Now"),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteState = ref.watch(favoriteProvider);
 
-// class _BookSummary extends StatelessWidget {
-//   const _BookSummary({
-//     required this.bookState,
-//   });
-
-//   final BookState bookState;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           "Summary",
-//           style: AppTheme.lightTheme.textTheme.bodyLarge,
-//         ),
-//         SizedBox(height: 8.h),
-//         SizedBox(
-//           height: 245.h,
-//           width: 350.w,
-//           child: Text(
-//             bookState.book!.summary,
-//             style: AppTheme.lightTheme.textTheme.bodySmall,
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+    return Align(
+      alignment: Alignment.topRight,
+      child: GestureDetector(
+        onTap: () {
+          ref.read(favoriteProvider.notifier).toggleFavorite();
+        },
+        child: AnimatedScale(
+          scale: favoriteState.scale,
+          duration: const Duration(milliseconds: 150), // Animasyon süresi
+          child: Icon(
+            favoriteState.isFavorited ? Icons.favorite : Icons.favorite_border,
+            color: favoriteState.isFavorited ? Colors.purple : Colors.grey,
+            size: 30.0,
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -55,14 +55,17 @@ class _AuthorAndPrice extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(
-            book.author,
-            style: AppTheme.lightTheme.textTheme.displaySmall?.copyWith(
-                color: const Color.fromARGB(81, 0, 0, 0), fontSize: 8.sp),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              book.author,
+              style: AppTheme.lightTheme.textTheme.displaySmall?.copyWith(
+                  color: const Color.fromARGB(81, 0, 0, 0), fontSize: 8.sp),
+              maxLines: 1,
+              overflow: TextOverflow.fade,
+              softWrap: false,
+            ),
           ),
         ),
         // Price

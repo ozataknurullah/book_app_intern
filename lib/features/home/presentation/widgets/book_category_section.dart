@@ -66,7 +66,10 @@ class _BookSection extends StatelessWidget {
             itemBuilder: (context, index) {
               final book = books[index];
               return GestureDetector(
-                onTap: () => onBookTap(book),
+                onTap: () {
+                  onBookTap(book);
+                  context.pushRoute(BookDetailRoute(book: book));
+                },
                 child: HorizantalBookCard(
                   book: book,
                 ),
