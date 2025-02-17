@@ -5,6 +5,7 @@ class BookModel {
   final double price;
   final String cover;
   final String description;
+  final bool isFavorited;
 
   BookModel({
     required this.id,
@@ -13,6 +14,7 @@ class BookModel {
     required this.price,
     required this.cover,
     required this.description,
+    required this.isFavorited,
   });
 
   factory BookModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class BookModel {
       price: json['price'].toDouble(),
       cover: json['cover'] as String,
       description: json['description'] as String,
+      isFavorited: (json['likes_aggregate']?['aggregate']?['count'] ?? 0) > 0,
     );
   }
 

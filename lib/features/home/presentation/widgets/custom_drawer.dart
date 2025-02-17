@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/auth_token.dart';
 import '../../../../services/local/local_stroge.dart';
-import '../providers/user_name_provider.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
+import '../providers/fav_provider.dart';
+import '../providers/user_provider.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 
@@ -45,7 +48,7 @@ class _BuildHeader extends ConsumerWidget {
           SizedBox(height: 10.h),
           userNameAsync.when(
             data: (email) => Text(
-              email!,
+              email ?? "...",
               style: AppTheme.lightTheme.textTheme.bodyLarge,
             ),
             loading: () => Text(
@@ -64,11 +67,11 @@ class _BuildHeader extends ConsumerWidget {
   }
 }
 
-class _BuildMenuItems extends StatelessWidget {
+class _BuildMenuItems extends ConsumerWidget {
   const _BuildMenuItems();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: EdgeInsets.all(24.w),
       child: Wrap(
@@ -100,7 +103,12 @@ class _BuildMenuItems extends StatelessWidget {
                 await LocalStroge.removeToken();
                 // clear token in memory
                 AuthToken.token = null;
-                router.replace(LoginRoute());
+                ref.invalidate(userNameProvider);
+                ref.invalidate(userIdProvider);
+
+                await DefaultCacheManager().emptyCache();
+
+                router.replaceAll([const SplashRoute()]);
               }
             },
           ),

@@ -14,6 +14,6 @@ class LocalStroge {
   }
 
   static Future<void> removeToken() async {
-    await _storage.delete(key: _tokenKey);
+    return await _storage.delete(key: _tokenKey);
   }
 }

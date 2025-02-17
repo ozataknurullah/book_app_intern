@@ -1,13 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
+import 'package:book_app_intern_project/features/home/presentation/providers/user_provider.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/load_book_images_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../domain/models/book_model.dart';
-import '../providers/favorite_button_provider.dart';
+import '../providers/fav_provider.dart';
+import '../states/fav_state.dart';
 
 @RoutePage()
 class BookDetailScreen extends ConsumerWidget {
@@ -59,11 +61,57 @@ class _BookImageAndFavIcon extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 16.w),
-              const _FavIcon(),
+              _FavIcon(
+                book: book,
+              ),
             ],
           )
         ],
       ),
+    );
+  }
+}
+
+class _FavIcon extends ConsumerWidget {
+  final BookModel book;
+  const _FavIcon({required this.book});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncUserId = ref.watch(userIdProvider);
+    final favState = ref.watch(favProvider);
+
+    bool isFavorited = favState.favoriteBooks[book.id] ?? book.isFavorited;
+
+    return asyncUserId.when(
+      data: (userId) {
+        if (userId == null) {
+          return _buildIcon(isFavorited, null);
+        }
+
+        return GestureDetector(
+          onTap: () {
+            ref
+                .read(favProvider.notifier)
+                .toggleFavorite(userId: userId, productId: book.id);
+          },
+          child: AnimatedScale(
+            scale: favState.scale,
+            duration: const Duration(milliseconds: 150),
+            child: _buildIcon(isFavorited, favState),
+          ),
+        );
+      },
+      loading: () => _buildIcon(isFavorited, null),
+      error: (_, __) => _buildIcon(isFavorited, null),
+    );
+  }
+
+  Widget _buildIcon(bool isFavorited, FavState? favState) {
+    return Icon(
+      isFavorited ? Icons.favorite : Icons.favorite_border,
+      color: isFavorited ? Colors.purple : Colors.grey,
+      size: 30.0,
     );
   }
 }
@@ -144,33 +192,6 @@ class _BuyNowButton extends StatelessWidget {
             Text("\$${book.price.toString()}"),
             const Text("Buy Now"),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _FavIcon extends ConsumerWidget {
-  const _FavIcon();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final favoriteState = ref.watch(favoriteProvider);
-
-    return Align(
-      alignment: Alignment.topRight,
-      child: GestureDetector(
-        onTap: () {
-          ref.read(favoriteProvider.notifier).toggleFavorite();
-        },
-        child: AnimatedScale(
-          scale: favoriteState.scale,
-          duration: const Duration(milliseconds: 150), // Animasyon süresi
-          child: Icon(
-            favoriteState.isFavorited ? Icons.favorite : Icons.favorite_border,
-            color: favoriteState.isFavorited ? Colors.purple : Colors.grey,
-            size: 30.0,
-          ),
         ),
       ),
     );

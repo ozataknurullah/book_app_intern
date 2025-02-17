@@ -15,3 +15,15 @@ final userNameProvider = FutureProvider<String?>((ref) async {
   }
   return null;
 });
+
+final userIdProvider = FutureProvider<int?>((ref) async {
+//First look for local Storge token
+  String? token = await LocalStroge.getToken();
+  //If not found, look for token in cached
+  token ??= AuthToken.token;
+  if (token != null && JwtHelper.isTokenValid(token)) {
+    final payload = JwtHelper.getPayload(token);
+    return payload['user_id'] as int?;
+  }
+  return null;
+});

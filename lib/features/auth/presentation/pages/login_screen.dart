@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/features/auth/presentation/providers/login_provider.dart';
+import 'package:book_app_intern_project/features/home/presentation/providers/user_provider.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/constant/app_strings.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -93,6 +94,7 @@ class _LoginButton extends ConsumerWidget {
     ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
       if (!next.isLoading && next.errorMessage == null) {
         overlay.remove();
+        ref.invalidate(userNameProvider);
         CustomToast.showSuccess("Giriş Basarılı!");
         context.router.replace(const HomeRoute());
       } else if (next.errorMessage != null) {
