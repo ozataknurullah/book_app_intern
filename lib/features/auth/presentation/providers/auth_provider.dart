@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/enum/auth_status.dart';
 
-final authProvider = StateNotifierProvider<AuthNotifier, AuthStatus>((ref) {
+final authProvider =
+    StateNotifierProvider.autoDispose<AuthNotifier, AuthStatus>((ref) {
   return AuthNotifier();
 });
 

@@ -91,9 +91,10 @@ class _FavIcon extends ConsumerWidget {
 
         return GestureDetector(
           onTap: () {
-            ref
-                .read(favProvider.notifier)
-                .toggleFavorite(userId: userId, productId: book.id);
+            ref.read(favProvider.notifier).toggleFavorite(
+                userId: userId,
+                productId: book.id,
+                currentFavoriteStatus: isFavorited);
           },
           child: AnimatedScale(
             scale: favState.scale,

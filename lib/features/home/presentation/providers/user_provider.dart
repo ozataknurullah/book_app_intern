@@ -4,7 +4,7 @@ import '../../../../core/utils/auth_token.dart';
 import '../../../../services/local/local_stroge.dart';
 import '../../../../core/utils/jwt_helper.dart';
 
-final userNameProvider = FutureProvider<String?>((ref) async {
+final userNameProvider = FutureProvider.autoDispose<String?>((ref) async {
   //First look for local Storge token
   String? token = await LocalStroge.getToken();
   //If not found, look for token in cached
@@ -16,7 +16,7 @@ final userNameProvider = FutureProvider<String?>((ref) async {
   return null;
 });
 
-final userIdProvider = FutureProvider<int?>((ref) async {
+final userIdProvider = FutureProvider.autoDispose<int?>((ref) async {
 //First look for local Storge token
   String? token = await LocalStroge.getToken();
   //If not found, look for token in cached

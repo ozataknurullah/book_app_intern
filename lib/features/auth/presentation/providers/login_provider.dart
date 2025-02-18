@@ -6,11 +6,11 @@ import '../../../../core/providers/providers.dart';
 import '../states/login_state.dart';
 
 final loginNotifierProvider =
-    StateNotifierProvider<LoginNotifier, LoginState>((ref) {
+    StateNotifierProvider.autoDispose<LoginNotifier, LoginState>((ref) {
   return LoginNotifier(loginRepository: ref.read(loginRepositoryProvider));
 });
 
-final rememberMeProvider = StateProvider<bool>((ref) => false);
+final rememberMeProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 class LoginNotifier extends StateNotifier<LoginState> {
   final LoginRepository loginRepository;

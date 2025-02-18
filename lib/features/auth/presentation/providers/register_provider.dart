@@ -6,7 +6,7 @@ import '../../../../core/providers/providers.dart';
 
 /// RegisterNotifier provider
 final registerNotifierProvider =
-    StateNotifierProvider<RegisterNotifier, RegisterState>((ref) {
+    StateNotifierProvider.autoDispose<RegisterNotifier, RegisterState>((ref) {
   return RegisterNotifier(
       registerRepository: ref.read(registerRepositoryProvider));
 });

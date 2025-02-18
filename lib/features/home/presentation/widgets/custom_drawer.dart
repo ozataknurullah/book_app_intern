@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/features/auth/presentation/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/providers/providers.dart';
 import '../../../../core/utils/auth_token.dart';
 import '../../../../services/local/local_stroge.dart';
-import '../../../auth/presentation/providers/auth_provider.dart';
 import '../providers/fav_provider.dart';
 import '../providers/user_provider.dart';
 import '../../../../core/routes/app_router.dart';
@@ -103,8 +104,6 @@ class _BuildMenuItems extends ConsumerWidget {
                 await LocalStroge.removeToken();
                 // clear token in memory
                 AuthToken.token = null;
-                ref.invalidate(userNameProvider);
-                ref.invalidate(userIdProvider);
 
                 await DefaultCacheManager().emptyCache();
 
