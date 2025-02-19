@@ -89,7 +89,7 @@ class _BookSliderSection extends ConsumerWidget {
   }
 }
 
-class _SearchField extends StatelessWidget {
+class _SearchField extends ConsumerWidget {
   const _SearchField({
     required this.searchController,
   });
@@ -97,11 +97,26 @@ class _SearchField extends StatelessWidget {
   final TextEditingController searchController;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: EdgeInsets.only(left: 10.w, right: 10.w),
-      child:
-          CustomSearchField(controller: searchController, hintText: "Search"),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      child: Hero(
+        tag: "searchBar",
+        child: Material(
+          type: MaterialType.transparency,
+          child: CustomSearchField(
+            controller: searchController,
+            hintText: "Search",
+            onTap: () {
+              FocusScope.of(context).unfocus();
+
+              context.pushRoute(
+                SearchResultsRoute(initialQuery: searchController.text),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }

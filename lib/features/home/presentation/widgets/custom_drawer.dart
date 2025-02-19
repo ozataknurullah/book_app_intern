@@ -1,14 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:book_app_intern_project/features/auth/presentation/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/providers/providers.dart';
 import '../../../../core/utils/auth_token.dart';
 import '../../../../services/local/local_stroge.dart';
-import '../providers/fav_provider.dart';
 import '../providers/user_provider.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/theme/app_theme.dart';

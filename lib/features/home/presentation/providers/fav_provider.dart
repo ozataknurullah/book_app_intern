@@ -27,20 +27,16 @@ class FavNotifier extends StateNotifier<FavState> {
 
     try {
       if (isCurrentlyFavorited!) {
-        print(
-            "[FavNotifier] Sending unlike request for productId: $productId, userId: $userId");
         await favRepository.unlikeProduct(userId: userId, productId: productId);
         state = state.copyWith(
             favoriteBooks: {...state.favoriteBooks, productId: false});
       } else {
-        print(
-            "[FavNotifier] Sending like request for productId: $productId, userId: $userId");
         await favRepository.likeProduct(userId: userId, productId: productId);
         state = state
             .copyWith(favoriteBooks: {...state.favoriteBooks, productId: true});
       }
     } catch (e) {
-      print("[FavNotifier] Error: $e");
+      throw Exception(e);
     }
     state = state.copyWith(scale: 1.0);
   }

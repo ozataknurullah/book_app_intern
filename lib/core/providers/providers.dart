@@ -1,10 +1,10 @@
-import 'package:book_app_intern_project/features/home/data/datasources/book_cover_data_source.dart';
-import 'package:book_app_intern_project/features/home/data/datasources/book_data_source.dart';
-import 'package:book_app_intern_project/features/home/data/datasources/category_data_source.dart';
-import 'package:book_app_intern_project/features/home/data/repositories/category_repository_impl.dart';
-import 'package:book_app_intern_project/features/home/domain/repositories/book_cover_repository.dart';
-import 'package:book_app_intern_project/features/home/domain/repositories/fav_repository.dart';
-import 'package:book_app_intern_project/services/network/interceptors/auth_interceptors.dart';
+import '../../features/home/data/datasources/book_cover_data_source.dart';
+import '../../features/home/data/datasources/book_data_source.dart';
+import '../../features/home/data/datasources/category_data_source.dart';
+import '../../features/home/data/repositories/category_repository_impl.dart';
+import '../../features/home/domain/repositories/book_cover_repository.dart';
+import '../../features/home/domain/repositories/fav_repository.dart';
+import '../../services/network/interceptors/auth_interceptors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/auth/data/repositories/login_repository_impl.dart';
 import '../../features/auth/data/repositories/register_repository_impl.dart';
@@ -69,3 +69,5 @@ final bookCoverRepositoryProvider = Provider<BookCoverRepository>((ref) {
 final favRepositoryProvider = Provider<FavRepository>((ref) {
   return FavRepositoryImpl(ref.read(apiServiceProvider));
 });
+
+

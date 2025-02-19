@@ -9,8 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/home/presentation/pages/book_detail_screen.dart';
-// ignore: unused_import
-import '../../features/home/presentation/states/book_state.dart';
+import '../../features/home/presentation/pages/search_screen.dart';
+
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
@@ -26,5 +26,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: HomeRoute.page),
         AutoRoute(page: CategoryRoute.page),
         AutoRoute(page: BookDetailRoute.page),
+        AutoRoute(page: SearchResultsRoute.page),
       ];
 }

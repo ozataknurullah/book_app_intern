@@ -21,19 +21,21 @@ class BookDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: const CustomAppBar(title: "Book Details", showBackButton: true),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _BookImageAndFavIcon(book: book),
-            SizedBox(height: 16.h),
-            _BookTitleAndAuthor(book: book),
-            SizedBox(height: 30.h),
-            _BookSummary(book: book),
-            SizedBox(height: 30.h),
-            _BuyNowButton(book: book),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _BookImageAndFavIcon(book: book),
+              SizedBox(height: 16.h),
+              _BookTitleAndAuthor(book: book),
+              SizedBox(height: 30.h),
+              _BookSummary(book: book),
+              SizedBox(height: 30.h),
+              _BuyNowButton(book: book),
+            ],
+          ),
         ),
       ),
     );
@@ -164,9 +166,11 @@ class _BookSummary extends StatelessWidget {
         SizedBox(
           height: 245.h,
           width: 350.w,
-          child: Text(
-            book.description,
-            style: AppTheme.lightTheme.textTheme.bodySmall,
+          child: SingleChildScrollView(
+            child: Text(
+              book.description,
+              style: AppTheme.lightTheme.textTheme.bodySmall,
+            ),
           ),
         ),
       ],

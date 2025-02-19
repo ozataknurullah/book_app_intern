@@ -190,6 +190,46 @@ class RegisterRouteArgs {
 }
 
 /// generated route for
+/// [SearchResultsScreen]
+class SearchResultsRoute extends PageRouteInfo<SearchResultsRouteArgs> {
+  SearchResultsRoute({
+    Key? key,
+    required String initialQuery,
+    List<PageRouteInfo>? children,
+  }) : super(
+         SearchResultsRoute.name,
+         args: SearchResultsRouteArgs(key: key, initialQuery: initialQuery),
+         initialChildren: children,
+       );
+
+  static const String name = 'SearchResultsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<SearchResultsRouteArgs>();
+      return SearchResultsScreen(
+        key: args.key,
+        initialQuery: args.initialQuery,
+      );
+    },
+  );
+}
+
+class SearchResultsRouteArgs {
+  const SearchResultsRouteArgs({this.key, required this.initialQuery});
+
+  final Key? key;
+
+  final String initialQuery;
+
+  @override
+  String toString() {
+    return 'SearchResultsRouteArgs{key: $key, initialQuery: $initialQuery}';
+  }
+}
+
+/// generated route for
 /// [SplashScreen]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})
