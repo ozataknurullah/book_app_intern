@@ -3,8 +3,8 @@ import '../../../../core/providers/providers.dart';
 import '../../domain/repositories/book_repository.dart';
 import '../states/book_state.dart';
 
-final bookProvider = StateNotifierProvider.family
-    .autoDispose<BookNotifier, BookState, int>((ref, categoryId) {
+final bookProvider = StateNotifierProvider.family<BookNotifier, BookState, int>(
+    (ref, categoryId) {
   final repository = ref.read(bookRepositoryProvider);
   return BookNotifier(repository, categoryId);
 });

@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/core/constant/app_assets.dart';
-import 'package:book_app_intern_project/core/routes/app_router.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: showBackButton
           ? BackButton(
               onPressed: () {
-                context.router.replace(const HomeRoute());
+                context.back();
               },
             )
           : Builder(

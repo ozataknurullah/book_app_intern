@@ -19,7 +19,7 @@ class SplashScreen extends ConsumerWidget {
     final authStatus = ref.watch(authProvider);
     ref.listen<AuthStatus>(authProvider, (previous, next) {
       if (next == AuthStatus.authenticated) {
-        context.pushRoute(const HomeRoute());
+        context.router.replaceAll([const HomeRoute()]);
       }
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {

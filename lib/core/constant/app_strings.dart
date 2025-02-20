@@ -11,6 +11,7 @@ class AppStrings {
   static const registerAccount = "Register an account";
   static const successTitle = "Success";
   static const successMessage = "Registration successful!";
+  static const summary = "Summary";
   static const emailHint = "jhon@gmail.com";
   static const nameHint = "John Doe";
   static const passwordHint = "Password";

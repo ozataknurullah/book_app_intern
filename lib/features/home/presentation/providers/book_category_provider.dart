@@ -5,8 +5,7 @@ import '../../data/repositories/book_category_repository_impl.dart';
 import '../states/book_category_state.dart';
 
 final bookCategoryProvider =
-    StateNotifierProvider.autoDispose<BookCategoryNotifier, BookCategoryState>(
-        (ref) {
+    StateNotifierProvider<BookCategoryNotifier, BookCategoryState>((ref) {
   final repository = BookCategoryRepositoryImpl(BookCategoryDataSource());
   return BookCategoryNotifier(repository);
 });

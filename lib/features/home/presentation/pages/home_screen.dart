@@ -81,10 +81,10 @@ class _BookSliderSection extends ConsumerWidget {
           final CategoryModel category = categoryState.categories[index];
           final bookState = ref.watch(bookProvider(category.id));
           return BookCategorySection(
-              category: category,
-              bookState: bookState,
-              onBookTap: (book) =>
-                  context.pushRoute(BookDetailRoute(book: book)));
+            category: category,
+            bookState: bookState,
+            onBookTap: (book) {},
+          );
         },
       ),
     );

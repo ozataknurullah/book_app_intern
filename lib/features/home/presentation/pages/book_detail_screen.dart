@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/core/constant/app_strings.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
 import 'package:book_app_intern_project/core/widgets/custom_appbar.dart';
 import 'package:book_app_intern_project/features/home/presentation/providers/user_provider.dart';
@@ -159,7 +160,7 @@ class _BookSummary extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Summary",
+          AppStrings.summary,
           style: AppTheme.lightTheme.textTheme.bodyLarge,
         ),
         SizedBox(height: 8.h),
