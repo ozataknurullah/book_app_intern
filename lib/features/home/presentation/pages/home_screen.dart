@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:book_app_intern_project/core/constant/app_strings.dart';
+import 'package:book_app_intern_project/core/widgets/custom_toast.dart';
 import 'package:book_app_intern_project/features/home/domain/models/category_model.dart';
 import 'package:book_app_intern_project/features/home/presentation/providers/book_provider.dart';
 import 'package:book_app_intern_project/features/home/presentation/states/book_category_state.dart';
@@ -27,8 +29,15 @@ class HomeScreen extends ConsumerWidget {
     final bookCategoryState = ref.watch(bookCategoryProvider);
     final bookCategoryNotifier = ref.read(bookCategoryProvider.notifier);
     final categoryState = ref.watch(categoryProvider);
+    final categoryNotifier = ref.read(categoryProvider.notifier);
 
     final TextEditingController searchController = TextEditingController();
+    if (bookCategoryState.errorMessage != null ||
+        categoryState.errorMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        CustomToast.showError(AppStrings.networkError);
+      });
+    }
 
     return Scaffold(
       appBar: const CustomAppBar(
@@ -36,31 +45,27 @@ class HomeScreen extends ConsumerWidget {
         showBackButton: false,
       ),
       drawer: const CustomDrawer(),
-      body: bookCategoryState.isLoading || categoryState.isLoading
-          ? const ShimmerHomeScreen()
-          : bookCategoryState.errorMessage != null ||
-                  categoryState.errorMessage != null
-              ? Center(
-                  child: Text(
-                    bookCategoryState.errorMessage ??
-                        categoryState.errorMessage!,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 15.h),
-                    //Book Categories Section
-                    _HorizantalBookCategorySection(
-                        bookCategoryState: bookCategoryState,
-                        bookCategoryNotifier: bookCategoryNotifier),
-                    SizedBox(height: 20.h),
-                    _SearchField(searchController: searchController),
-                    SizedBox(height: 20.h),
-                    _BookSliderSection(categoryState: categoryState),
-                  ],
-                ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await categoryNotifier.fetchCategories();
+          await bookCategoryNotifier.fetchBookCategories();
+        },
+        child: (bookCategoryState.isLoading || categoryState.isLoading)
+            ? const ShimmerHomeScreen()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 15.h),
+                  _HorizantalBookCategorySection(
+                      bookCategoryState: bookCategoryState,
+                      bookCategoryNotifier: bookCategoryNotifier),
+                  SizedBox(height: 20.h),
+                  _SearchField(searchController: searchController),
+                  SizedBox(height: 20.h),
+                  _BookSliderSection(categoryState: categoryState),
+                ],
+              ),
+      ),
     );
   }
 }

@@ -23,4 +23,6 @@ class AppStrings {
   static const registerSucces = "Kayıt Basarılı!";
   static const registerError =
       "Kayıt Basarısız lütfen bilgilerinizi kontrol ediniz";
+
+  static const networkError = "İnternet bağlantınızı kontrol ediniz.";
 }
