@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routes/app_router.dart';
+import '../../../../core/widgets/custom_toast.dart';
 import '../../domain/models/category_model.dart';
 import '../states/book_state.dart';
 
@@ -23,6 +24,11 @@ class BookCategorySection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (bookState.errorMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        CustomToast.showError(bookState.errorMessage!);
+      });
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,13 +38,7 @@ class BookCategorySection extends ConsumerWidget {
           onBookTap: onBookTap,
         ),
         const SizedBox(height: 16),
-        bookState.isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : bookState.errorMessage != null
-                ? Center(
-                    child: Text(bookState.errorMessage!,
-                        style: const TextStyle(color: Colors.red)))
-                : _BookSection(books: bookState.books, onBookTap: onBookTap),
+        _BookSection(books: bookState.books, onBookTap: onBookTap),
       ],
     );
   }

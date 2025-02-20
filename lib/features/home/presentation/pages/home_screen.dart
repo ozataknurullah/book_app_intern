@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../widgets/shimmer_home_screen.dart';
+
 @RoutePage()
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -35,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       drawer: const CustomDrawer(),
       body: bookCategoryState.isLoading || categoryState.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const ShimmerHomeScreen()
           : bookCategoryState.errorMessage != null ||
                   categoryState.errorMessage != null
               ? Center(

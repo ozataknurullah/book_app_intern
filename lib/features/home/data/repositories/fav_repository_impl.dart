@@ -8,7 +8,11 @@ class FavRepositoryImpl implements FavRepository {
 
   @override
   Future<bool> likeProduct(
-      {required int userId, required int productId}) async {
+
+      /// Sends a POST request to the API to like a product, taking userId and productId as
+      /// required parameters. Returns true if successful, or throws an exception if the request fails.
+      {required int userId,
+      required int productId}) async {
     const endpoint = ApiRoutes.like;
     final data = {"user_id": userId, "product_id": productId};
     try {
@@ -21,7 +25,10 @@ class FavRepositoryImpl implements FavRepository {
 
   @override
   Future<bool> unlikeProduct(
-      {required int userId, required int productId}) async {
+
+      ///  Sends a POST request to the API to unlike a product, taking userId and productId as required parameters.
+      {required int userId,
+      required int productId}) async {
     const endpoint = ApiRoutes.unlike;
     final data = {"user_id": userId, "product_id": productId};
     try {

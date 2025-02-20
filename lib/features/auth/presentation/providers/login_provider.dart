@@ -13,6 +13,8 @@ final loginNotifierProvider =
 final rememberMeProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 class LoginNotifier extends StateNotifier<LoginState> {
+  /// Initializes the LoginNotifier instance with a required LoginRepository
+  /// instance and sets the initial state to LoginState.initial().
   final LoginRepository loginRepository;
 
   LoginNotifier({required this.loginRepository}) : super(LoginState.initial());

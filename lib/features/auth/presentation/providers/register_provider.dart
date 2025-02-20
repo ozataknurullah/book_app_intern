@@ -18,6 +18,9 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
       : super(RegisterState.initial());
 
   /// REGISTER
+  /// Handles user registration by calling the register method of the RegisterRepository instance.
+  /// It updates the state to indicate loading, attempts to register, and then updates the state with
+  /// the result (either success or error).
   Future<void> register(String name, String email, String password) async {
     state = state.copyWith(
       isLoading: true,

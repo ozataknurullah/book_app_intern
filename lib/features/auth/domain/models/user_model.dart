@@ -1,3 +1,4 @@
+// The UserModel class represents a user with three properties: id, email, and token.
 class UserModel {
   final String id;
   final String email;

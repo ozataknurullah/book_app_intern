@@ -9,6 +9,8 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
   @override
   Future<List<CategoryModel>> getCategories() async {
+    /// This method retrieves a list of categories from the CategoryDataSource
+    /// and returns a future containing the list of CategoryModel objects.
     return categoryDataSource.getCategories();
   }
 }

@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:book_app_intern_project/features/auth/presentation/providers/login_provider.dart';
-import 'package:book_app_intern_project/features/home/presentation/providers/user_provider.dart';
+import '../providers/login_provider.dart';
+import "package:flutter/material.dart";
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../../home/presentation/providers/user_provider.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/constant/app_strings.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/custom_text_field.dart';
-import "package:flutter/material.dart";
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/widgets/custom_toast.dart';
 import '../states/login_state.dart';
@@ -87,7 +87,7 @@ class _LoginButton extends ConsumerWidget {
     final rememberMe = ref.watch(rememberMeProvider);
     final overlay = OverlayEntry(
       builder: (context) => const CustomOverlay(
-        msg: "Giriş Yapılıyor...",
+        msg: AppStrings.loginInText,
       ),
     );
 
@@ -95,12 +95,11 @@ class _LoginButton extends ConsumerWidget {
       if (!next.isLoading && next.errorMessage == null) {
         overlay.remove();
         ref.invalidate(userNameProvider);
-        CustomToast.showSuccess("Giriş Basarılı!");
+        CustomToast.showSuccess(AppStrings.loginSucces);
         context.router.replace(const HomeRoute());
       } else if (next.errorMessage != null) {
         overlay.remove();
-        CustomToast.showError(
-            "Giriş Basarısız lütfen bilgilerinizi kontrol edinizzz");
+        CustomToast.showError(AppStrings.loginError);
       }
     });
 

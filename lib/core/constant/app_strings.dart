@@ -14,4 +14,12 @@ class AppStrings {
   static const emailHint = "jhon@gmail.com";
   static const nameHint = "John Doe";
   static const passwordHint = "Password";
+  static const loginInText = "Giriş Yapılıyor...";
+  static const loginSucces = "Giriş Basarılı!";
+  static const loginError =
+      "Giriş Basarısız lütfen bilgilerinizi kontrol ediniz";
+  static const registerInText = "Kayıt Yapılıyor...";
+  static const registerSucces = "Kayıt Basarılı!";
+  static const registerError =
+      "Kayıt Basarısız lütfen bilgilerinizi kontrol ediniz";
 }

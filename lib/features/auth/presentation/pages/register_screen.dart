@@ -1,5 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:book_app_intern_project/features/auth/presentation/widgets/custom_overlay.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../states/register_state.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/constant/app_strings.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -7,12 +12,6 @@ import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/custom_toast.dart';
 import '../providers/register_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../states/register_state.dart';
 
 @RoutePage()
 class RegisterScreen extends ConsumerWidget {
@@ -89,19 +88,18 @@ class _RegisterButton extends ConsumerWidget {
     final registerNotifier = ref.read(registerNotifierProvider.notifier);
     final overlay = OverlayEntry(
       builder: (context) => const CustomOverlay(
-        msg: "Kayıt Yapılıyor...",
+        msg: AppStrings.registerInText,
       ),
     );
 
     ref.listen<RegisterState>(registerNotifierProvider, (previous, next) {
       if (!next.isLoading && next.errorMessage == null) {
         overlay.remove();
-        CustomToast.showSuccess("Kayıt başarılı!");
+        CustomToast.showSuccess(AppStrings.registerSucces);
         context.router.maybePop();
       } else if (next.errorMessage != null) {
         overlay.remove();
-        CustomToast.showError(
-            "Kayıt sırasında hata oluştu, lütfen bilgilerinizi kontrol ediniz");
+        CustomToast.showError(AppStrings.registerError);
       }
     });
     return SizedBox(

@@ -16,6 +16,7 @@ class SplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authStatus = ref.watch(authProvider);
     ref.listen<AuthStatus>(authProvider, (previous, next) {
       if (next == AuthStatus.authenticated) {
         context.pushRoute(const HomeRoute());
@@ -35,16 +36,18 @@ class SplashScreen extends ConsumerWidget {
             const _CenterLogo(),
             Expanded(
               flex: 1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Login Button
-                  const _LoginButton(),
-                  SizedBox(height: 10.h),
-                  // Skip Button
-                  const _SkipTextButton()
-                ],
-              ),
+              child: authStatus == AuthStatus.unauthenticated
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Login Button
+                        const _LoginButton(),
+                        SizedBox(height: 10.h),
+                        // Skip Button
+                        const _SkipTextButton(),
+                      ],
+                    )
+                  : const SizedBox(),
             ),
           ],
         ),

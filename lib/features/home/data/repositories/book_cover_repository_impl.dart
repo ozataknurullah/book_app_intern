@@ -6,6 +6,8 @@ class BookCoverRepositoryImpl implements BookCoverRepository {
   BookCoverRepositoryImpl(this.bookCoverDataSource);
   @override
   Future<String> getBookCover(String fileName) async {
+    ///  Retrieves a book cover based on a given file name, delegating
+    /// the actual data retrieval to the bookCoverDataSource object.
     return await bookCoverDataSource.getBookCover(fileName);
   }
 }

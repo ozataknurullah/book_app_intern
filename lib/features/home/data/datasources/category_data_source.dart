@@ -8,6 +8,7 @@ class CategoryDataSource {
   CategoryDataSource(this.apiService);
 
   Future<List<CategoryModel>> getCategories() async {
+    ///  This method fetches a list of categories from the API, converts the response to a list of CategoryModel
     try {
       final response = await apiService.get(ApiRoutes.getCategories);
 

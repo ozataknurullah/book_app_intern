@@ -3,12 +3,15 @@ import 'package:book_app_intern_project/services/network/services.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/constant/api_routes.dart';
 
+/// RegisterRepositoryImpl is a class that implements the RegisterRepository interface,
+/// providing a concrete implementation for handling user registration.
 class RegisterRepositoryImpl implements RegisterRepository {
   final ApiService apiService;
 
   RegisterRepositoryImpl(this.apiService);
 
   ///REGISTER
+  /// Initializes the class with an instance of ApiService, which is used to make API requests.
   @override
   Future<String> register(String name, String email, String password) async {
     try {
