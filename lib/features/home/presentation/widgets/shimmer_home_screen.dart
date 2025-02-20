@@ -28,7 +28,7 @@ class ShimmerHomeScreen extends StatelessWidget {
 
           // SearchBar shimmer
           const ShimmerWidget(width: double.infinity, height: 50),
-          SizedBox(height: 20.h),
+          SizedBox(height: 30.h),
 
           // Books Shimmer
           Expanded(
@@ -36,17 +36,28 @@ class ShimmerHomeScreen extends StatelessWidget {
               itemCount: 5,
               itemBuilder: (context, index) => Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.h),
-                child: Row(
+                child: Column(
                   children: [
-                    const ShimmerWidget(width: 100, height: 150),
-                    SizedBox(width: 10.w),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const ShimmerWidget(width: 150, height: 20),
-                        SizedBox(height: 5.h),
-                        const ShimmerWidget(width: 100, height: 15),
+                        const ShimmerWidget(width: 120, height: 20),
+                        SizedBox(width: 10.w),
+                        const ShimmerWidget(width: 50, height: 20),
                       ],
+                    ),
+                    SizedBox(height: 10.w),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          const ShimmerWidget(width: 150, height: 100),
+                          SizedBox(width: 10.w),
+                          const ShimmerWidget(width: 150, height: 100),
+                          SizedBox(width: 10.w),
+                          const ShimmerWidget(width: 150, height: 100),
+                        ],
+                      ),
                     ),
                   ],
                 ),
