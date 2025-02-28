@@ -1,16 +1,17 @@
+import 'package:book_app_intern_project/features/home/domain/repositories/home_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers/providers.dart';
-import '../../domain/repositories/book_repository.dart';
+
 import '../states/book_state.dart';
 
 final bookProvider = StateNotifierProvider.family<BookNotifier, BookState, int>(
     (ref, categoryId) {
-  final repository = ref.read(bookRepositoryProvider);
+  final repository = ref.read(homeRepositoryProvider);
   return BookNotifier(repository, categoryId);
 });
 
 class BookNotifier extends StateNotifier<BookState> {
-  final BookRepository bookRepository;
+  final HomeRepository bookRepository;
   final int categoryId;
 
   BookNotifier(

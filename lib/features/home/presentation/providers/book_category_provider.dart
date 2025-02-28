@@ -1,17 +1,18 @@
-import 'package:book_app_intern_project/features/home/domain/repositories/book_category_repository.dart';
+import 'package:book_app_intern_project/features/home/data/repositories/home_repository_impl.dart';
+import 'package:book_app_intern_project/features/home/domain/repositories/home_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/datasources/book_category_data_source.dart';
-import '../../data/repositories/book_category_repository_impl.dart';
+import '../../../../core/providers/providers.dart';
 import '../states/book_category_state.dart';
 
 final bookCategoryProvider =
     StateNotifierProvider<BookCategoryNotifier, BookCategoryState>((ref) {
-  final repository = BookCategoryRepositoryImpl(BookCategoryDataSource());
+  final repository =
+      HomeRepositoryImpl(apiService: ref.read(apiServiceProvider));
   return BookCategoryNotifier(repository);
 });
 
 class BookCategoryNotifier extends StateNotifier<BookCategoryState> {
-  final BookCategoryRepository repository;
+  final HomeRepository repository;
 
   BookCategoryNotifier(this.repository) : super(BookCategoryState.initial()) {
     fetchBookCategories();

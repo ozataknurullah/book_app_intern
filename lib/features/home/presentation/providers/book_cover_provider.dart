@@ -3,6 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final bookCoverProvider =
     FutureProvider.family<String, String>((ref, fileName) async {
-  final repository = ref.read(bookCoverRepositoryProvider);
+  final repository = ref.read(homeRepositoryProvider);
   return await repository.getBookCover(fileName);
 });

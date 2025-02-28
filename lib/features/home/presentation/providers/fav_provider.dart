@@ -1,17 +1,17 @@
+import 'package:book_app_intern_project/features/home/domain/repositories/home_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers/providers.dart';
-import '../../domain/repositories/fav_repository.dart';
 import '../states/fav_state.dart';
 
 final favProvider = StateNotifierProvider<FavNotifier, FavState>(
   (ref) {
-    final repo = ref.read(favRepositoryProvider);
+    final repo = ref.read(homeRepositoryProvider);
     return FavNotifier(repo);
   },
 );
 
 class FavNotifier extends StateNotifier<FavState> {
-  final FavRepository favRepository;
+  final HomeRepository favRepository;
 
   FavNotifier(this.favRepository) : super(FavState.initial());
   Future<void> toggleFavorite({
