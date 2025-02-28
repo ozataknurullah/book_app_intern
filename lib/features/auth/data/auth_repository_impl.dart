@@ -1,13 +1,14 @@
 import 'package:book_app_intern_project/services/network/services.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/constant/api_routes.dart';
-import '../../domain/repositories/login_repository.dart';
+import '../domain/repositories/auth_repository.dart';
 
-//LoginRepositoryImpl is a class that implements the LoginRepository interface, providing a concrete implementation for handling login functionality.
-class LoginRepositoryImpl implements LoginRepository {
+/// RegisterRepositoryImpl is a class that implements the RegisterRepository interface,
+/// providing a concrete implementation for handling user registration.
+class AuthRepositoryImpl implements AuthRepository {
   final ApiService apiService;
 
-  LoginRepositoryImpl(this.apiService);
+  AuthRepositoryImpl(this.apiService);
 
   ///LOGIN Http request
   /// Initializes the class with an instance of ApiService, which is used to make HTTP requests.
@@ -26,6 +27,27 @@ class LoginRepositoryImpl implements LoginRepository {
       if (e.response?.statusCode == 500) {
         throw Exception(
             'Giriş işlemi başarısız oldu. Lütfen bilgilerinizi kontrol ediniz.');
+      }
+      throw Exception('Bir hata oluştu. Lütfen tekrar deneyiniz.');
+    } catch (e) {
+      throw Exception('Beklenmeyen bir hata oluştu.');
+    }
+  }
+
+  ///REGISTER
+  /// Initializes the class with an instance of ApiService, which is used to make API requests.
+  @override
+  Future<String> register(String name, String email, String password) async {
+    try {
+      final response = await apiService.post(
+        ApiRoutes.register,
+        {'name': name, 'email': email, 'password': password},
+      );
+      return response['action_register']['token'];
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 500) {
+        throw Exception(
+            'Kayıt işlemi başarısız oldu. Lütfen bilgilerinizi kontrol ediniz');
       }
       throw Exception('Bir hata oluştu. Lütfen tekrar deneyiniz.');
     } catch (e) {

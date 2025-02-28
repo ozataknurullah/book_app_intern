@@ -1,4 +1,4 @@
-import 'package:book_app_intern_project/features/home/data/repositories/home_repository_impl.dart';
+import 'package:book_app_intern_project/features/home/data/home_repository_impl.dart';
 import 'package:book_app_intern_project/features/home/domain/repositories/home_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers/providers.dart';

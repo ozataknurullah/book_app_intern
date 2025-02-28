@@ -1,9 +1,9 @@
-import '../../../../services/network/services.dart';
-import '../../domain/models/book_category_model.dart';
-import '../../domain/models/book_model.dart';
-import '../../domain/models/category_model.dart';
-import '../../../../core/constant/api_routes.dart';
-import '../../domain/repositories/home_repository.dart';
+import '../../../services/network/services.dart';
+import '../domain/models/book_category_model.dart';
+import '../domain/models/book_model.dart';
+import '../domain/models/category_model.dart';
+import '../../../core/constant/api_routes.dart';
+import '../domain/repositories/home_repository.dart';
 
 ///  BookCategoryRepositoryImpl, implements the BookCategoryRepository interface and provides a concrete
 /// implementation for fetching book categories

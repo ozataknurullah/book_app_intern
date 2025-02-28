@@ -1,14 +1,13 @@
-import 'package:book_app_intern_project/features/home/data/repositories/home_repository_impl.dart';
+import 'package:book_app_intern_project/features/auth/data/auth_repository_impl.dart';
+import 'package:book_app_intern_project/features/auth/domain/repositories/auth_repository.dart';
+import 'package:book_app_intern_project/features/home/data/home_repository_impl.dart';
 import 'package:book_app_intern_project/features/home/domain/repositories/home_repository.dart';
 
 import '../../services/network/interceptors/auth_interceptors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../features/auth/data/repositories/login_repository_impl.dart';
-import '../../features/auth/data/repositories/register_repository_impl.dart';
-import '../../features/auth/domain/repositories/login_repository.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../../features/auth/domain/repositories/register_repository.dart';
 
 import '../../services/network/services.dart';
 
@@ -31,14 +30,9 @@ final apiServiceProvider = Provider<ApiService>((ref) {
   return ApiService(ref.read(dioProvider));
 });
 
-/// LoginRepository provider
-final loginRepositoryProvider = Provider<LoginRepository>((ref) {
-  return LoginRepositoryImpl(ref.read(apiServiceProvider));
-});
-
-/// RegisterRepository provider
-final registerRepositoryProvider = Provider<RegisterRepository>((ref) {
-  return RegisterRepositoryImpl(ref.read(apiServiceProvider));
+/// AuthRepository provider
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return AuthRepositoryImpl(ref.read(apiServiceProvider));
 });
 
 /// HomeRepository Provider

@@ -1,4 +1,5 @@
-import 'package:book_app_intern_project/features/auth/domain/repositories/register_repository.dart';
+import 'package:book_app_intern_project/features/auth/domain/repositories/auth_repository.dart';
+
 import 'package:book_app_intern_project/features/auth/presentation/states/register_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,12 +8,11 @@ import '../../../../core/providers/providers.dart';
 /// RegisterNotifier provider
 final registerNotifierProvider =
     StateNotifierProvider.autoDispose<RegisterNotifier, RegisterState>((ref) {
-  return RegisterNotifier(
-      registerRepository: ref.read(registerRepositoryProvider));
+  return RegisterNotifier(registerRepository: ref.read(authRepositoryProvider));
 });
 
 class RegisterNotifier extends StateNotifier<RegisterState> {
-  final RegisterRepository registerRepository;
+  final AuthRepository registerRepository;
 
   RegisterNotifier({required this.registerRepository})
       : super(RegisterState.initial());
