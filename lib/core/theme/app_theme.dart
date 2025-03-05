@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'color_theme.dart';
 import 'text_theme.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
     colorScheme: const ColorScheme.light(
-        primary: Color(0xFF1D1D4E),
-        surface: Color(0xFFFFFFFF),
-        secondary: Color(0xFF6251DD)),
+        primary: AppColors.primary,
+        surface: AppColors.white,
+        secondary: AppColors.secondary),
     textTheme: TextTheme(
       bodyLarge: bodyLargeData,
       bodyMedium: bodyMediumData,
@@ -38,24 +39,24 @@ class AppTheme {
 
   static AppBarTheme _appBarTheme() {
     return const AppBarTheme(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       elevation: 0,
       titleTextStyle: TextStyle(
-        color: Colors.black,
+        color: AppColors.black,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
       iconTheme: IconThemeData(
-        color: Colors.black,
+        color: AppColors.black,
       ),
     );
   }
 
   static CheckboxThemeData _checkboxThemeData() {
     return CheckboxThemeData(
-      checkColor: WidgetStateProperty.all(Colors.white),
+      checkColor: WidgetStateProperty.all(AppColors.white),
       side: const BorderSide(
-        color: Color(0xFF6251DD),
+        color: AppColors.secondary,
         width: 2,
       ),
     );
@@ -64,7 +65,7 @@ class AppTheme {
   static TextButtonThemeData _textButtonThemeData() {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: const Color(0xFF6251DD),
+        foregroundColor: AppColors.secondary,
         textStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w700,
@@ -77,8 +78,8 @@ class AppTheme {
   static ElevatedButtonThemeData _elevatedButtonThemeData() {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFEF6B4A),
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.orange,
+        foregroundColor: AppColors.white,
         textStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
@@ -98,7 +99,7 @@ class AppTheme {
   static InputDecorationTheme _inputDecorationTheme() {
     return InputDecorationTheme(
       filled: true,
-      fillColor: const Color(0xFFF4F4FF),
+      fillColor: AppColors.white,
       contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),

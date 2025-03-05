@@ -1,4 +1,5 @@
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
+import 'package:book_app_intern_project/core/theme/color_theme.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/load_book_images_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:book_app_intern_project/features/home/domain/models/book_model.dart';
@@ -20,10 +21,10 @@ class HorizantalBookCard extends StatelessWidget {
       margin: const EdgeInsets.only(right: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
-        color: const Color(0xFFF4F4FF),
+        color: AppColors.darkWhite,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withAlpha(45),
+            color: AppColors.grey.withAlpha(45),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -87,7 +88,7 @@ class _BookDetails extends StatelessWidget {
                 "${book.price.toStringAsFixed(2)} \$",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF6A0DAD), // Mor renk
+                  color: AppColors.purple,
                   fontSize: 14,
                 ),
               ),

@@ -25,6 +25,7 @@ class BookCategoryNotifier extends StateNotifier<BookCategoryState> {
       state = state.copyWith(
         isLoading: false,
         bookCategories: bookCategories,
+        selectedCategoryIndex: -1,
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
@@ -32,6 +33,10 @@ class BookCategoryNotifier extends StateNotifier<BookCategoryState> {
   }
 
   void selectCategory(int index) {
-    state = state.copyWith(selectedCategoryIndex: index);
+    if (index == 0) {
+      state = state.copyWith(selectedCategoryIndex: -1);
+    } else {
+      state = state.copyWith(selectedCategoryIndex: index);
+    }
   }
 }

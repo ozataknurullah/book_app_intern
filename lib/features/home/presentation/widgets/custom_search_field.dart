@@ -1,4 +1,5 @@
 import 'package:book_app_intern_project/core/constant/app_assets.dart';
+import 'package:book_app_intern_project/core/theme/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:book_app_intern_project/core/theme/app_theme.dart';
@@ -50,7 +51,7 @@ class CustomSearchField extends ConsumerWidget {
               )
             : null,
         filled: true,
-        fillColor: const Color(0xFFF4F4FF),
+        fillColor: AppColors.darkWhite,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide.none,

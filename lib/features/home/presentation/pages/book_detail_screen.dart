@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/theme/color_theme.dart';
 import '../../domain/models/book_model.dart';
 import '../providers/fav_provider.dart';
 import '../states/fav_state.dart';
@@ -114,7 +115,7 @@ class _FavIcon extends ConsumerWidget {
   Widget _buildIcon(bool isFavorited, FavState? favState) {
     return Icon(
       isFavorited ? Icons.favorite : Icons.favorite_border,
-      color: isFavorited ? Colors.purple : Colors.grey,
+      color: isFavorited ? AppColors.purple : AppColors.grey,
       size: 30.0,
     );
   }

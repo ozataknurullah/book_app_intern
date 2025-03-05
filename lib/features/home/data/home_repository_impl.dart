@@ -17,8 +17,8 @@ class HomeRepositoryImpl implements HomeRepository {
     return [
       BookCategoryModel(id: "0", name: "All"),
       BookCategoryModel(id: "1", name: "Classic"),
-      BookCategoryModel(id: "2", name: "Horror"),
-      BookCategoryModel(id: "3", name: "Romance"),
+      BookCategoryModel(id: "2", name: "Children"),
+      BookCategoryModel(id: "3", name: "Philosophy"),
       BookCategoryModel(id: "4", name: "Adventure"),
     ];
   }

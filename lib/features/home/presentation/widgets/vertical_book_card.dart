@@ -1,3 +1,4 @@
+import 'package:book_app_intern_project/core/theme/color_theme.dart';
 import 'package:book_app_intern_project/features/home/presentation/widgets/load_book_images_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,10 +15,10 @@ class VerticalBookCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: const Color(0xFFF4F4FF),
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withAlpha(45),
+            color: AppColors.grey.withAlpha(45),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -60,8 +61,8 @@ class _AuthorAndPrice extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
               book.author,
-              style: AppTheme.lightTheme.textTheme.displaySmall?.copyWith(
-                  color: const Color.fromARGB(81, 0, 0, 0), fontSize: 8.sp),
+              style: AppTheme.lightTheme.textTheme.displaySmall
+                  ?.copyWith(color: AppColors.black, fontSize: 8.sp),
               maxLines: 1,
               overflow: TextOverflow.fade,
               softWrap: false,
@@ -75,7 +76,7 @@ class _AuthorAndPrice extends StatelessWidget {
             "\$${book.price.toStringAsFixed(2)}",
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.purple,
+              color: AppColors.purple,
             ),
           ),
         ),
@@ -98,7 +99,7 @@ class _BookTitle extends StatelessWidget {
       child: Text(
         book.name,
         style: AppTheme.lightTheme.textTheme.displayMedium
-            ?.copyWith(color: Colors.black),
+            ?.copyWith(color: AppColors.black),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
